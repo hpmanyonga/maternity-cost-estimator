@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple, Union
 import pandas as pd
-from engine.config import RISK_PROFILES, PRENATAL_VITAMIN_MONTHS
+from engine.config import RISK_PROFILES, PRENATAL_VITAMIN_MONTHS, NOH_PRICING
 from engine.data_loader import load_all
 
 
@@ -553,3 +553,58 @@ def estimate(inp: EstimatorInput) -> CostBreakdown | dict[str, CostBreakdown]:
     )
     result.line_items = all_items
     return result
+
+
+def estimate_noh(inp: EstimatorInput) -> dict:
+    """Return NOH bundled fee and comparison metrics vs fee-for-service."""
+    # NOH base fee
+    noh_low = NOH_PRICING["global_fee_low"]
+    noh_high = NOH_PRICING["global_fee_high"]
+
+    # CS add-on
+    if inp.delivery_type == "CS":
+        noh_low += NOH_PRICING["cs_addon"]
+        noh_high += NOH_PRICING["cs_addon"]
+
+    # Risk add-on
+    risk_addon = NOH_PRICING["risk_addon"].get(inp.risk_level, 0)
+    noh_low += risk_addon
+    noh_high += risk_addon
+
+    # Paediatrician is NOT included in NOH bundle — estimate separately
+    data = _get_data()
+    paed_range, _ = _estimate_paediatrician(data, inp)
+
+    # Fee-for-service estimate for comparison
+    ffs_result = estimate(inp)
+
+    # Handle Undecided (use the higher of NVD/CS for ffs)
+    if isinstance(ffs_result, dict):
+        ffs_total_low = max(ffs_result["NVD"].total[0], ffs_result["CS"].total[0])
+        ffs_total_high = max(ffs_result["NVD"].total[1], ffs_result["CS"].total[1])
+    else:
+        ffs_total_low = ffs_result.total[0]
+        ffs_total_high = ffs_result.total[1]
+
+    noh_total_low = noh_low + paed_range[0]
+    noh_total_high = noh_high + paed_range[1]
+
+    savings_low = ffs_total_low - noh_total_high  # conservative savings
+    savings_high = ffs_total_high - noh_total_low  # max savings
+
+    return {
+        "noh_fee_low": noh_low,
+        "noh_fee_high": noh_high,
+        "noh_total_low": noh_total_low,
+        "noh_total_high": noh_total_high,
+        "paediatrician": paed_range,
+        "ffs_result": ffs_result,
+        "ffs_total_low": ffs_total_low,
+        "ffs_total_high": ffs_total_high,
+        "savings_low": max(0, savings_low),
+        "savings_high": max(0, savings_high),
+        "savings_percent_low": max(0, round(savings_low / ffs_total_high * 100)) if ffs_total_high else 0,
+        "savings_percent_high": max(0, round(savings_high / ffs_total_high * 100)) if ffs_total_high else 0,
+        "inclusions": NOH_PRICING["inclusions"],
+        "exclusions": NOH_PRICING["exclusions"],
+    }

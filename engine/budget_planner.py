@@ -68,3 +68,25 @@ def calculate_savings_plan(
         total_low=total_low,
         total_high=total_high,
     )
+
+
+def calculate_noh_payment_plan(
+    noh_total_low: int,
+    noh_total_high: int,
+    months: int = 12,
+    deposit_pct: int = 10,
+) -> dict:
+    """Calculate NOH deposit + monthly instalment plan."""
+    deposit_low = int(noh_total_low * deposit_pct / 100)
+    deposit_high = int(noh_total_high * deposit_pct / 100)
+    balance_low = noh_total_low - deposit_low
+    balance_high = noh_total_high - deposit_high
+    monthly_low = int(balance_low / months)
+    monthly_high = int(balance_high / months)
+    return {
+        "deposit_low": deposit_low,
+        "deposit_high": deposit_high,
+        "monthly_low": monthly_low,
+        "monthly_high": monthly_high,
+        "months": months,
+    }

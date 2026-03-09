@@ -78,3 +78,30 @@ EXTRA_TESTS = [
 
 # Prenatal vitamins — months of pregnancy to budget for
 PRENATAL_VITAMIN_MONTHS = 9
+
+# NOH (Network One Health) bundled maternity pricing
+NOH_PRICING = {
+    "global_fee_low": 48_000,
+    "global_fee_high": 58_000,
+    "cs_addon": 2_000,
+    "risk_addon": {"low": 0, "medium": 5_800, "high": 11_500},
+    "regions": ["Gauteng", "Western Cape", "KwaZulu-Natal", "Other"],
+    "inclusions": [
+        "All antenatal visits (10-14 visits)",
+        "All ultrasound scans",
+        "Booking bloods and pathology",
+        "Hospital facility fees",
+        "Obstetrician delivery fee",
+        "Anaesthetist fee",
+        "Doula birth support",
+        "Antenatal classes",
+        "Prenatal vitamins guidance",
+    ],
+    "exclusions": [
+        "Paediatrician newborn assessment",
+    ],
+    "payment_terms": {
+        "months": 12,
+        "deposit_percent": 10,
+    },
+}
