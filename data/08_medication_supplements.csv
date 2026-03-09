@@ -1,0 +1,16 @@
+category,product_name,description,price_low_rands,price_high_rands,year,source_url,notes
+Prenatal vitamin,PregOmega Plus,Folic acid + omega-3 combination,250,350,2025,https://www.dischem.co.za/catalog/category/view/s/pregnancy-supplements/id/1201/,Most widely recommended SA brand; Clicks + Dis-Chem
+Prenatal vitamin,Vital Prenatal,Budget prenatal supplement,80,150,2025,https://www.dischem.co.za/catalog/category/view/s/pregnancy-supplements/id/1201/,Available supermarkets + pharmacies
+Prenatal vitamin,Solgar Prenatal Nutrients,Premium international brand,350,500,2025,https://www.faithful-to-nature.co.za/health/vitamins-supplements/multivitamins/prenatals-multivitamins,Higher-end option
+Prenatal vitamin,Pregnacare,UK brand prenatal,200,350,2025,Web search aggregate,Available at Clicks and Dis-Chem
+Prenatal vitamin,Elevit,Premium prenatal,300,450,2025,Web search aggregate,Bayer brand
+Supplement,Folic acid (generic),5mg folic acid tablets,30,80,2025,Web search aggregate,Per month supply
+Supplement,Iron supplement (Ferrous sulphate),Iron tablets,40,120,2025,Web search aggregate,Per month supply
+Supplement,Calcium supplement,Calcium + Vitamin D,60,150,2025,Web search aggregate,Per month supply
+Chronic medication,Methyldopa 250mg,Antihypertensive (pregnancy-safe),80,200,2025,Web search aggregate,Per month; for gestational hypertension
+Chronic medication,Metformin 500mg,Diabetes management,40,120,2025,Web search aggregate,Per month; for gestational diabetes
+Chronic medication,Levothyroxine 50mcg,Thyroid replacement,50,150,2025,Web search aggregate,Per month; for hypothyroidism
+Discharge medication,Take-home medications post-delivery,Pain relief + antibiotics + other,950,2350,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Mediclinic data
+Additional medical,Blood products (if needed),Transfusion products,3000,12000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Complication scenario
+Additional medical,Specialized equipment (if needed),Medical devices/consumables,1500,5000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Complication scenario
+Additional medical,Additional medications during stay,In-hospital pharmacy,2000,8000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Variable by case

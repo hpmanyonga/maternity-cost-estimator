@@ -1,0 +1,21 @@
+source_id,source_name,url,date_accessed,data_year,reliability,notes
+S01,PMB Care - Private Hospital Birth Costs 2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,2026-03-09,2025,High,Comprehensive guide with regional breakdowns by hospital group
+S02,PMB Care - Mediclinic Maternity Costs 2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,2026-03-09,2025,High,Detailed Mediclinic fee breakdown incl daily rates
+S03,PMB Care - Life Healthcare Maternity Fees 2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,2026-03-09,2025,High,Detailed Life Healthcare fees by ward type
+S04,Dr Gary Groenewald - Cape Town Obstetrician,https://capegynaecologist.co.za/fees/,2026-03-09,2025,High,Individual obstetrician published fee schedule - Western Cape
+S05,Lister Clinic - Pathology Price List,https://www.listerclinic.com/pathology-price-list,2026-03-09,2025,High,Individual test prices for budget pathology provider
+S06,SS Ultrasound - Price List,http://www.ssultrasound.co.za/price,2026-03-09,2025,High,Budget ultrasound provider prices
+S07,Peek-a-Babe - Packages & Fees,https://peekababe.co.za/packages-fees/,2026-03-09,2025,High,Ultrasound scan provider with package deals
+S08,Lister Clinic - Ultrasound Price List,https://www.listerclinic.com/ultrasound-sonar-price-list,2026-03-09,2025,High,Ultrasound prices from multi-service clinic
+S09,Protea Midwifery - Fees,https://proteanurse.co.za/fees/,2026-03-09,2026,High,Independent midwife fee schedule - Cape Town
+S10,Birth Divine Birth Center - Fees,https://birth-divine.co.za/fees,2026-03-09,2025,Medium,Birth centre all-inclusive fee
+S11,Alnisa Maternity Home - Pricing,https://alnisa.co.za/pricing/,2026-03-09,2025,Medium,Maternity home package price
+S12,DNA Labs Africa - NIFTY NIPT,https://dnalabsafrica.com/test/nifty-non-invasive-prenatal-testing-nipt/,2026-03-09,2025,High,NIPT genetic screening pricing
+S13,inqaba biotec - PrenaTest NIPT,https://inqababiotec.co.za/nipt/,2026-03-09,2025,High,NIPT genetic screening pricing
+S14,Peer Med Pretoria - Ultrasound,https://peermedpretoria.co.za/medical-services/ultrasound-in-pretoria/,2026-03-09,2025,Medium,Ultrasound pricing - Pretoria
+S15,Dis-Chem - Pregnancy Supplements,https://www.dischem.co.za/catalog/category/view/s/pregnancy-supplements/id/1201/,2026-03-09,2025,Medium,Supplement retail pricing
+S16,Mediclinic - Private Tariff Schedule 2025 (PDF),https://www.mediclinic.co.za/content/dam/mc-sa-corporate/downloads/MCSA%20Private%20Tariff%20Schedule%20(South%20Africa)%20-%201%20Jan%202025.pdf,2026-03-09,2025,High,Official Mediclinic tariff - not yet parsed
+S17,SA Private Hospitals - Childbirth Costs,https://www.saprivatehospitals.com/hospital-care/childbirth-delivery-costs-in-south-africa/,2026-03-09,2024,Medium,General overview article
+S18,Veriontech - Ultrasound Cost 2024,https://veriontech.com/cost-of-ultrasound-scan-in-south-africa-2024/,2026-03-09,2024,Medium,General price ranges for ultrasound
+S19,PathCare - Fees Lookup,https://www.pathcare.co.za/fees-lookup/,2026-03-09,2025,High,Interactive fee lookup - requires manual search per test
+S20,Network One Maternity - Fees,https://networkonematernity.co.za/fees/,2026-03-09,2025,High,Network One Health (own platform) maternity fees

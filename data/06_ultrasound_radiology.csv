@@ -1,0 +1,37 @@
+category,provider_name,service_description,price_low_rands,price_high_rands,year,source_url,notes
+Ultrasound,SS Ultrasound,2D dating/early scan,400,400,2025,http://www.ssultrasound.co.za/price,Budget option
+Ultrasound,SS Ultrasound,2D FA scan (anatomy 18-22 weeks),650,650,2025,http://www.ssultrasound.co.za/price,Fetal anomaly scan
+Ultrasound,SS Ultrasound,Fetal wellbeing/growth scan (23-40 weeks),400,400,2025,http://www.ssultrasound.co.za/price,Growth monitoring
+Ultrasound,SS Ultrasound,Elective 4D scan (26-32 weeks),600,600,2025,http://www.ssultrasound.co.za/price,Optional 4D
+Ultrasound,SS Ultrasound,Twin pregnancy surcharge,40%,40%,2025,http://www.ssultrasound.co.za/price,Added to all pregnancy scans
+Ultrasound,Peek-a-Babe,Dating/viability scan,300,300,2025,https://peekababe.co.za/packages-fees/,Budget option
+Ultrasound,Peek-a-Babe,Gender scan (15 min),600,600,2025,https://peekababe.co.za/packages-fees/,Gender determination
+Ultrasound,Peek-a-Babe,Single scan (12-36 weeks),800,800,2025,https://peekababe.co.za/packages-fees/,Standard scan
+Ultrasound,Peek-a-Babe,Anomaly scan (20-24 weeks),950,950,2025,https://peekababe.co.za/packages-fees/,Detailed anatomy scan
+Ultrasound,Peek-a-Babe,5-scan package (3 paid + 2 free),2400,2400,2025,https://peekababe.co.za/packages-fees/,Saves R1600 total
+Ultrasound,Lister Clinic,Anatomical pregnancy sonar (28-32 weeks),1200,1200,2025,https://www.listerclinic.com/ultrasound-sonar-price-list,Incl abnormality screen + sex determination
+Ultrasound,Lister Clinic,4D pregnancy sonar,1200,1200,2025,https://www.listerclinic.com/ultrasound-sonar-price-list,Incl sex determination
+Ultrasound,Peer Med Pretoria,Standard scan,630,630,2025,https://peermedpretoria.co.za/medical-services/ultrasound-in-pretoria/,Incl printed pictures
+Ultrasound,National estimate,Basic ultrasound,800,800,2024,https://veriontech.com/cost-of-ultrasound-scan-in-south-africa-2024/,Starting price
+Ultrasound,National estimate,Comprehensive/specialist scan,3000,5000,2024,https://veriontech.com/cost-of-ultrasound-scan-in-south-africa-2024/,Upper range
+Ultrasound,National estimate,3D/4D scan starting price,1000,1000,2024,https://veriontech.com/cost-of-ultrasound-scan-in-south-africa-2024/,Starting price
+Ultrasound,Life Healthcare data,Dating ultrasound,1200,1700,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,8-12 weeks
+Ultrasound,Life Healthcare data,Anomaly scan,1800,2400,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,20-22 weeks
+Ultrasound,Life Healthcare data,Growth scan,1500,2100,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,28/32/36 weeks
+Ultrasound,Mediclinic data,Total ultrasounds (all antenatal),4500,9000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,All scans combined during pregnancy
+Ultrasound,Drs Sobey (Gauteng),Dating scan,950,1200,2024,https://sobey.co.za/,Gauteng-based radiology group
+Ultrasound,Drs Sobey (Gauteng),Anatomy scan,2200,3000,2024,https://sobey.co.za/,Detailed anomaly scan
+Ultrasound,Morton & Partners (Western Cape),Dating scan,900,1300,2024,https://mortonandpartners.co.za/,Cape Town based
+Ultrasound,Morton & Partners (Western Cape),Nuchal translucency,2000,2800,2024,https://mortonandpartners.co.za/,First trimester screening
+Ultrasound,Morton & Partners (Western Cape),Anatomy scan,2500,3200,2024,https://mortonandpartners.co.za/,Fetal medicine specialists
+Ultrasound,Lake Smit & Partners (KZN),Dating scan,850,1200,2024,https://lakesmit.co.za/,KZN based
+Ultrasound,Lake Smit & Partners (KZN),Anatomy scan,2200,2800,2024,https://lakesmit.co.za/,20-week scan
+Ultrasound,Envisionit (multi-region),Dating scan,900,1300,2024,https://www.envisionit.co.za/,National presence
+Ultrasound,Envisionit (multi-region),Anatomy scan,2500,3200,2024,https://www.envisionit.co.za/,Detailed anomaly scan
+Ultrasound,Obstetrician rooms (in-office),Dating/viability scan,600,1000,2024,Various,Many OBs do own scans - cheaper than radiology groups
+Ultrasound,Obstetrician rooms (in-office),Growth scan,600,1000,2024,Various,In-office scan during routine visit
+Ultrasound,Private radiology general,Fetal Doppler assessment,1200,2000,2024,Various,Umbilical artery/MCA/ductus venosus - high-risk
+Ultrasound total,Private radiology,Low-risk pregnancy (dating + anatomy + 1 growth),3700,6500,2024,Aggregated,3 scans total
+Ultrasound total,Private radiology,Medium-risk (dating + NT + anatomy + 2 growth),6500,11000,2024,Aggregated,5 scans total
+Ultrasound total,Private radiology,High-risk (dating + NT + anatomy + 3-4 growth + Doppler),9000,16000,2024,Aggregated,6-7 scans total
+Radiology,National estimate,Total radiology costs,2000,6000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,All imaging during pregnancy

@@ -1,0 +1,18 @@
+category,provider_name,location,service_description,price_low_rands,price_high_rands,year,source_url,notes
+Midwife,Protea Midwifery,Cape Town,Booking visit (first consultation),800,800,2026,https://proteanurse.co.za/fees/,First antenatal visit
+Midwife,Protea Midwifery,Cape Town,Follow-up consultation,600,600,2026,https://proteanurse.co.za/fees/,Per visit (8-10 needed)
+Midwife,Protea Midwifery,Cape Town,Birth unit global fee (NVD),17000,17000,2026,https://proteanurse.co.za/fees/,Incl R2500 deposit + midwife fees + meds + facility + labs
+Midwife,Protea Midwifery,Cape Town,Hospital birth practitioner fee,12000,12000,2026,https://proteanurse.co.za/fees/,At Genesis/Oxford units; excl hospital facility fees
+Midwife,Protea Midwifery,Cape Town,Post-birth visits (1-2 visits),600,600,2026,https://proteanurse.co.za/fees/,Per visit
+Midwife,Protea Midwifery,Cape Town,6-week postnatal check,600,600,2026,https://proteanurse.co.za/fees/,Single visit
+Midwife,Protea Midwifery,Cape Town,Online antenatal classes (4 sessions),2500,2500,2026,https://proteanurse.co.za/fees/,Group classes
+Midwife,Protea Midwifery,Cape Town,Non-stress test,500,500,2026,https://proteanurse.co.za/fees/,CTG/fetal monitoring
+Midwife,Birth Divine Birth Center,Location not specified,Booking fee (non-refundable),3000,3000,2025,https://birth-divine.co.za/fees,Secures services
+Midwife,Birth Divine Birth Center,Location not specified,Birth fee (facility + midwife + doula),15700,15700,2025,https://birth-divine.co.za/fees,All-inclusive birth package
+Midwife,Alnisa Maternity Home,Location not specified,Full birth package (admission to 12hr post),19500,19500,2025,https://alnisa.co.za/pricing/,Labour admission through delivery + 12hr postnatal
+Midwife,PMB Care,Johannesburg,Natural birth at facility (all-inclusive),18500,18500,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,74% saving vs private hospital
+Midwife,PMB Care,Johannesburg,Home birth package (all-inclusive),22000,22000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Midwife-led home birth
+Midwife,National estimate,National,Midwife-led care total cost,15000,25000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,40-65% less than private hospital
+Midwife,National estimate,National,Medical aid reimbursement rate,40%,70%,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Many schemes reimburse registered midwife home births
+Doula,National estimate,National,Birth doula package,3000,8000,2025,Web search aggregate,Antenatal prep + birth support + postnatal visit
+Doula,National estimate,National,Postpartum doula (per visit/day),500,1500,2025,Web search aggregate,Daily or per-visit rate

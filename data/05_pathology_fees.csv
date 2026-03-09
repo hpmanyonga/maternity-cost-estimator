@@ -1,0 +1,79 @@
+category,provider_name,test_name,price_low_rands,price_high_rands,year,source_url,notes
+Haematology,Lister Clinic,FBC / Full Blood Indices,78,78,2025,https://www.listerclinic.com/pathology-price-list,Excl R700 consultation fee
+Haematology,Lister Clinic,Haemoglobin (Hb) only,22,22,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Haematology,Lister Clinic,ESR,45,45,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Haematology,Lister Clinic,Platelet Count,29,29,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Haematology,Lister Clinic,White Cell Count,211,211,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Haematology,Lister Clinic,Reticulocytes,37,37,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Blood Group,Lister Clinic,Blood Group + Rhesus,89,89,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+HIV,Lister Clinic,HIV ELISA,111,111,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+HIV,Lister Clinic,P24 Antigen ELISA,95,95,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+HIV,Lister Clinic,CD4/CD8 Count,133,133,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+HIV,Lister Clinic,HIV Viral Load,475,475,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+STI/Infection,Lister Clinic,RPR/VDRL (syphilis screen),37,37,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Hepatitis,Lister Clinic,HBsAg (Hepatitis B surface antigen),167,167,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Hepatitis,Lister Clinic,HBsAb (Hepatitis B surface antibody),167,167,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Immunity,Lister Clinic,Rubella IgG,167,167,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Immunity,Lister Clinic,Rubella IgM,167,167,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Glucose,Lister Clinic,Glucose Fasting,34,34,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Glucose,Lister Clinic,Glucose Tolerance Test (2hr OGTT),111,111,2025,https://www.listerclinic.com/pathology-price-list,Gestational diabetes screen
+Glucose,Lister Clinic,HbA1c,155,155,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Thyroid,Lister Clinic,TSH,139,139,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Thyroid,Lister Clinic,Free T4,211,211,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Iron,Lister Clinic,Iron Profile (complete),404,404,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Iron,Lister Clinic,Ferritin,155,155,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Nutritional,Lister Clinic,Vitamin B12,152,152,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Nutritional,Lister Clinic,Folate (Serum),152,152,2025,https://www.listerclinic.com/pathology-price-list,Excl consultation
+Antenatal panel,National estimate,Standard antenatal blood panel (all tests),1500,4500,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,FBC+blood group+HIV+RPR+HepB+rubella+urine
+Antenatal panel,National estimate,Total pathology/lab costs,2800,6000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,All antenatal tests combined
+Haematology,Lancet Laboratories,FBC,185,185,2024,https://www.lancet.co.za/test-prices/,Cash-paying patient price
+Blood Group,Lancet Laboratories,Blood Group & Rh Type,160,160,2024,https://www.lancet.co.za/test-prices/,ABO and Rh typing
+STI/Infection,Lancet Laboratories,RPR (syphilis screen),120,120,2024,https://www.lancet.co.za/test-prices/,Rapid Plasma Reagin
+HIV,Lancet Laboratories,HIV Rapid Test,180,180,2024,https://www.lancet.co.za/test-prices/,4th gen Ag/Ab
+HIV,Lancet Laboratories,HIV ELISA,250,250,2024,https://www.lancet.co.za/test-prices/,Laboratory confirmation
+Hepatitis,Lancet Laboratories,HBsAg,220,220,2024,https://www.lancet.co.za/test-prices/,HBV screening
+Immunity,Lancet Laboratories,Rubella IgG,280,280,2024,https://www.lancet.co.za/test-prices/,Immunity check
+Urine,Lancet Laboratories,Urine MCS,250,250,2024,https://www.lancet.co.za/test-prices/,Midstream urine culture
+Glucose,Lancet Laboratories,OGTT (75g 2hr),180,180,2024,https://www.lancet.co.za/test-prices/,Excl glucose drink
+Iron,Lancet Laboratories,Iron Studies (Ferritin+Iron+TIBC),350,350,2024,https://www.lancet.co.za/test-prices/,Full iron panel
+Iron,Lancet Laboratories,Ferritin alone,170,170,2024,https://www.lancet.co.za/test-prices/,Single analyte
+Thyroid,Lancet Laboratories,TSH,200,200,2024,https://www.lancet.co.za/test-prices/,Thyroid screen
+Thyroid,Lancet Laboratories,Free T4,200,200,2024,https://www.lancet.co.za/test-prices/,Thyroid function
+Glucose,Lancet Laboratories,Glucose fasting,80,80,2024,https://www.lancet.co.za/test-prices/,Single specimen
+Urine,Lancet Laboratories,Urine Dipstick,60,60,2024,https://www.lancet.co.za/test-prices/,Point of care
+Haematology,Ampath Laboratories,FBC,175,175,2024,https://www.ampath.co.za/patient-price-list,Cash price
+Blood Group,Ampath Laboratories,Blood Group Rh & Antibody Screen,195,195,2024,https://www.ampath.co.za/patient-price-list,Group + antibody combined
+STI/Infection,Ampath Laboratories,RPR (syphilis),110,110,2024,https://www.ampath.co.za/patient-price-list,Screening test
+HIV,Ampath Laboratories,HIV ELISA,240,240,2024,https://www.ampath.co.za/patient-price-list,4th gen
+Hepatitis,Ampath Laboratories,HBsAg,210,210,2024,https://www.ampath.co.za/patient-price-list,Hepatitis B
+Immunity,Ampath Laboratories,Rubella IgG,270,270,2024,https://www.ampath.co.za/patient-price-list,Immunity screen
+Urine,Ampath Laboratories,Urine MCS,240,240,2024,https://www.ampath.co.za/patient-price-list,Culture and sensitivity
+Glucose,Ampath Laboratories,OGTT (75g),170,170,2024,https://www.ampath.co.za/patient-price-list,Fasting + 2hr
+Thyroid,Ampath Laboratories,TSH,190,190,2024,https://www.ampath.co.za/patient-price-list,Thyroid screen
+Iron,Ampath Laboratories,Iron Studies,340,340,2024,https://www.ampath.co.za/patient-price-list,Ferritin + serum iron + TIBC
+Haematology,PathCare,FBC,180,180,2024,https://www.pathcare.co.za/fees-lookup/,Western Cape dominant lab
+Blood Group,PathCare,Blood Group & Rh,155,155,2024,https://www.pathcare.co.za/fees-lookup/,ABO + Rh
+STI/Infection,PathCare,RPR (syphilis),115,115,2024,https://www.pathcare.co.za/fees-lookup/,Screening
+HIV,PathCare,HIV ELISA,230,230,2024,https://www.pathcare.co.za/fees-lookup/,Lab-based
+Hepatitis,PathCare,HBsAg,215,215,2024,https://www.pathcare.co.za/fees-lookup/,Hepatitis B
+Immunity,PathCare,Rubella IgG,275,275,2024,https://www.pathcare.co.za/fees-lookup/,Immunity
+Urine,PathCare,Urine MCS,245,245,2024,https://www.pathcare.co.za/fees-lookup/,Midstream urine
+Glucose,PathCare,OGTT (75g),175,175,2024,https://www.pathcare.co.za/fees-lookup/,GDM screening
+Thyroid,PathCare,TSH,195,195,2024,https://www.pathcare.co.za/fees-lookup/,Thyroid
+Iron,PathCare,Iron Studies,345,345,2024,https://www.pathcare.co.za/fees-lookup/,Full panel
+Haematology,NHLS,FBC,85,120,2024,https://www.nhls.ac.za/,Public sector tariff
+Blood Group,NHLS,Blood Group & Rh,75,100,2024,https://www.nhls.ac.za/,Public sector
+STI/Infection,NHLS,RPR,55,75,2024,https://www.nhls.ac.za/,Public sector
+HIV,NHLS,HIV ELISA,95,130,2024,https://www.nhls.ac.za/,Public sector
+Hepatitis,NHLS,HBsAg,100,140,2024,https://www.nhls.ac.za/,Public sector
+Urine,NHLS,Urine MCS,110,150,2024,https://www.nhls.ac.za/,Public sector
+Glucose,NHLS,OGTT,80,110,2024,https://www.nhls.ac.za/,Public sector
+Antenatal panel,Private lab (Lancet/Ampath/PathCare),Standard booking bloods (FBC+Group+RPR+HIV+HepB+Rubella+Urine),1300,1600,2024,Aggregated from individual test prices,First visit panel
+Antenatal panel,Private lab,Booking bloods + OGTT + TSH,1700,2100,2024,Aggregated,Including GDM screen and thyroid
+Antenatal panel,Private lab,Full pregnancy pathology (all routine + OGTT + repeat 28wk),2200,3000,2024,Aggregated,Entire pregnancy excl NIPT
+Antenatal panel,NHLS (public),Standard booking bloods,500,800,2024,https://www.nhls.ac.za/,Public sector baseline
+Genetic,DNA Labs Africa,NIFTY NIPT (non-invasive prenatal test),3350,3350,2025,https://dnalabsafrica.com/test/nifty-non-invasive-prenatal-testing-nipt/,Discounted from R6000; Down/Edwards/Patau screen
+Genetic,inqaba biotec,PrenaTest NIPT (Trisomy 21),5500,5500,2025,https://inqababiotec.co.za/nipt/,VAT inclusive; singleton pregnancy
+Genetic,Lancet Laboratories,NIPT (Harmony or equivalent),6500,8500,2024,https://www.lancet.co.za/,Trisomy 13/18/21 + sex chromosomes
+Genetic,Ampath Laboratories,NIPT (Panorama or equivalent),6000,8000,2024,https://www.ampath.co.za/,Basic R6k; extended with microdeletions R8k+
+Genetic,PathCare,NIPT,6500,8000,2024,https://www.pathcare.co.za/,Similar range to Lancet

@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: maternity-cost-estimator
+    runtime: docker
+    plan: free
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false

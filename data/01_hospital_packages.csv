@@ -1,0 +1,67 @@
+provider,hospital_or_region,service_description,price_low_rands,price_high_rands,year,source_url,delivery_type,ward_type,notes
+Netcare,Gauteng (Johannesburg/Pretoria),Total maternity cost NVD,65000,90000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,Includes hospital + professional fees
+Netcare,Gauteng (Johannesburg/Pretoria),Total maternity cost CS,95000,130000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,Includes hospital + professional fees
+Netcare,Sunninghill,Total maternity cost (NVD-CS range),70000,125000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,All,Specific hospital
+Netcare,Waterfall,Total maternity cost (NVD-CS range),72000,128000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,All,Specific hospital
+Netcare,Western Cape,Total maternity cost NVD,68000,95000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,Includes hospital + professional fees
+Netcare,Western Cape,Total maternity cost CS,98000,135000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,Includes hospital + professional fees
+Netcare,Christiaan Barnard (Cape Town),Total maternity cost (NVD-CS range),73000,130000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,All,Specific hospital
+Netcare,KwaZulu-Natal,Total maternity cost NVD,58000,80000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,Includes hospital + professional fees
+Netcare,KwaZulu-Natal,Total maternity cost CS,85000,115000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,Includes hospital + professional fees
+Mediclinic,National,Hospital facility fees NVD,42000,68000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,NVD,All,Facility fees only excl professional fees
+Mediclinic,National,Hospital facility fees CS,62000,102000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,CS,All,Facility fees only excl professional fees
+Mediclinic,National,Total with all professional fees NVD,60000,95000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,NVD,All,Hospital + all professional fees
+Mediclinic,National,Total with all professional fees CS,95000,145000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,CS,All,Hospital + all professional fees
+Mediclinic,National,First day hospital cost NVD,9000,9000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,NVD,All,First day of confinement
+Mediclinic,National,First day hospital cost CS,13000,13000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,CS,All,First day of confinement
+Mediclinic,National,Additional day (nursery/ward),3000,3000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,Shared,Per extra day
+Mediclinic,National,Extended stay shared ward per night,4500,6000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,Shared,Per night
+Mediclinic,National,Extended stay private room per night,6500,9000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,Private,Per night
+Mediclinic,National,Private room upgrade total,4000,14000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,Private,Total upgrade cost R2000-R4000/night
+Mediclinic,National,Luxury/VIP suite per night,4000,6000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,VIP,Per night
+Mediclinic,National,Semi-private room total upgrade,1500,2500,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,Semi-private,Total upgrade cost
+Mediclinic,National,Discharge take-home medications,950,2350,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,All,Pharmacy on discharge
+Mediclinic,National,After-hours theatre surcharge,8000,15000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,All,25-50% markup on theatre fees
+Mediclinic,Gauteng,Total maternity cost NVD,60000,85000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,Includes professional fees
+Mediclinic,Gauteng,Total maternity cost CS,90000,125000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,Includes professional fees
+Mediclinic,Morningside (Gauteng),Total maternity cost (NVD-CS range),68000,120000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,All,Specific hospital
+Mediclinic,Western Cape,Total maternity cost NVD,70000,98000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,Includes professional fees
+Mediclinic,Western Cape,Total maternity cost CS,100000,138000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,Includes professional fees
+Mediclinic,Cape Town,Total maternity cost (NVD-CS range),75000,132000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,All,Specific hospital
+Mediclinic,Constantiaberg (Cape Town),Total maternity cost (NVD-CS range),72000,128000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,All,Specific hospital
+Mediclinic,KwaZulu-Natal,Total maternity cost NVD,55000,78000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,Includes professional fees
+Mediclinic,KwaZulu-Natal,Total maternity cost CS,82000,110000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,Includes professional fees
+Mediclinic,Sandton,NVD delivery total,50000,50000,2023,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,NVD,All,2023 reference point
+Mediclinic,Sandton,CS delivery total,80000,80000,2023,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,CS,All,2023 reference point
+Life Healthcare,National,Hospital facility fees NVD,40000,65000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,NVD,All,Facility fees only
+Life Healthcare,National,Hospital facility fees CS,60000,95000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,CS,All,Facility fees only
+Life Healthcare,National,NVD shared ward,40000,48000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,NVD,Shared,Facility fees
+Life Healthcare,National,NVD semi-private ward,42000,50000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,NVD,Semi-private,Facility fees
+Life Healthcare,National,NVD private room,46000,54000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,NVD,Private,Facility fees
+Life Healthcare,National,CS shared ward,60000,70000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,CS,Shared,Facility fees
+Life Healthcare,National,CS semi-private ward,63000,73000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,CS,Semi-private,Facility fees
+Life Healthcare,National,CS private room,67000,78000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,CS,Private,Facility fees
+Life Healthcare,National,Extra night shared ward,4000,5500,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,Both,Shared,Per night
+Life Healthcare,National,Extra night private room,6000,8500,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,Both,Private,Per night
+Life Healthcare,National,Private room upgrade (2 nights),3500,6000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,Both,Private,2-night upgrade
+Life Healthcare,National,Private room upgrade (3-4 nights),5000,12000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,Both,Private,3-4 night upgrade
+Life Healthcare,National,After-hours total surcharge,12000,22500,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,Both,All,Theatre+anaesthetist+obstetrician surcharge
+Life Healthcare,National,Special Care Nursery per day,8000,14000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,Both,All,SCN daily rate
+Life Healthcare,National,NICU per day,15000,32000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,Both,All,Intensive care daily rate
+Life Healthcare,Gauteng,Total maternity cost NVD,58000,82000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,Includes professional fees
+Life Healthcare,Gauteng,Total maternity cost CS,88000,120000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,Includes professional fees
+Life Healthcare,Fourways (Gauteng),Total maternity cost (NVD-CS range),65000,118000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,All,Specific hospital
+Life Healthcare,Western Cape,Total maternity cost NVD,65000,90000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,Includes professional fees
+Life Healthcare,Western Cape,Total maternity cost CS,95000,130000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,Includes professional fees
+Life Healthcare,KwaZulu-Natal,Total maternity cost NVD,52000,75000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,Includes professional fees
+Life Healthcare,KwaZulu-Natal,Total maternity cost CS,78000,105000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,Includes professional fees
+Independent,Eastern Cape / Free State,Total maternity cost NVD,45000,70000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,Smaller centres
+Independent,Eastern Cape / Free State,Total maternity cost CS,70000,95000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,Smaller centres
+Independent,Gauteng,Total maternity cost NVD,55000,80000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,Independent hospitals
+Independent,Gauteng,Total maternity cost CS,85000,115000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,Independent hospitals
+National Average,National,Total maternity cost NVD (with specialist fees),55000,85000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,National average
+National Average,National,Total maternity cost CS (with specialist fees),85000,130000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,National average
+National Average,National,Average total NVD,68000,68000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,Single average figure
+National Average,National,Average total CS,102000,102000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,Single average figure
+National Average,National,Hospital facility only NVD,25000,45000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,NVD,All,Excl professional fees
+National Average,National,Hospital facility only CS,45000,85000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,CS,All,Excl professional fees

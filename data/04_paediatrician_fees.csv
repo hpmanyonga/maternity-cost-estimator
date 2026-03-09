@@ -1,0 +1,13 @@
+provider_type,provider_name_or_region,service_description,price_low_rands,price_high_rands,year,source_url,delivery_type,notes
+Paediatrician,National (Mediclinic data),Newborn assessment at delivery,3500,5500,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,First newborn examination
+Paediatrician,National (Life Healthcare data),Newborn assessment at delivery,3500,5000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,Both,First newborn examination
+Paediatrician,Gauteng & Western Cape,Paediatrician fee range,4000,9000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,Regional range
+Paediatrician,KwaZulu-Natal,Paediatrician fee range,3500,7500,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,Lower than GP/WC
+Paediatrician,Netcare Park Lane (Johannesburg),Newborn assessment,5000,7000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,Premium Johannesburg hospital
+Paediatrician,Mediclinic Nelspruit,Newborn assessment,3000,5000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,Smaller centre
+Paediatrician,Medical aid rate,Typical medical aid reimbursement,1000,1000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,Gap between this and actual fee
+NICU,National (Mediclinic data),Special Care Nursery (SCN) per day,8000,15000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,Daily rate
+NICU,National (Mediclinic data),NICU intensive care per day,15000,35000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,Daily rate
+NICU,National (Life Healthcare data),Special Care Nursery per day,8000,14000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,Both,Daily rate
+NICU,National (Life Healthcare data),NICU intensive care per day,15000,32000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,Both,Daily rate
+NICU,National,NICU care general range per day,8000,30000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,Broad national range

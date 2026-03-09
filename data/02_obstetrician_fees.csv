@@ -1,0 +1,23 @@
+provider_type,provider_name_or_region,service_description,price_low_rands,price_high_rands,year,source_url,delivery_type,notes
+Obstetrician,Dr Gary Groenewald (Cape Town),Booking visit (8-10 weeks incl ultrasound & pap),2350,2350,2025,https://capegynaecologist.co.za/fees/,N/A,Western Cape private practice
+Obstetrician,Dr Gary Groenewald (Cape Town),Follow-up antenatal visit,1100,1100,2025,https://capegynaecologist.co.za/fees/,N/A,Per visit; approx 5 visits needed
+Obstetrician,Dr Gary Groenewald (Cape Town),Normal vaginal delivery,24000,24000,2025,https://capegynaecologist.co.za/fees/,NVD,Delivery fee only
+Obstetrician,Dr Gary Groenewald (Cape Town),Elective caesarean section,24500,24500,2025,https://capegynaecologist.co.za/fees/,CS,Delivery fee only
+Obstetrician,Dr Gary Groenewald (Cape Town),Emergency caesarean section,26500,26500,2025,https://capegynaecologist.co.za/fees/,CS,Emergency premium
+Obstetrician,Dr Gary Groenewald (Cape Town),Post-delivery check-up (8 weeks),500,500,2025,https://capegynaecologist.co.za/fees/,Both,Postnatal visit
+Obstetrician,Dr Gary Groenewald (Cape Town),Wound check (CS patients 2 weeks),0,0,2025,https://capegynaecologist.co.za/fees/,CS,No charge
+Obstetrician,National (Mediclinic data),NVD delivery fee,12000,20000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,NVD,Professional fee only
+Obstetrician,National (Mediclinic data),CS delivery fee,18000,28000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,CS,Professional fee only
+Obstetrician,National (Life Healthcare data),NVD delivery fee,12000,18000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,NVD,Professional fee only
+Obstetrician,National (Life Healthcare data),CS delivery fee (surgeon),18000,26000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,CS,Professional fee only
+Obstetrician,Gauteng & Western Cape,Total obstetrician fee (all-in),15000,28000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,Total specialist fee range
+Obstetrician,KwaZulu-Natal,Total obstetrician fee (all-in),12000,22000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,Lower than GP/WC
+Obstetrician,National (Mediclinic data),Total antenatal visits (10-14 visits),10000,18000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,N/A,All consultation visits combined
+Obstetrician,National (Life Healthcare data),Per antenatal consultation,800,1150,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,N/A,Per visit
+Obstetrician,Medical aid rate,Typical medical aid reimbursement for obstetrician,5000,5000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,Gap between this and actual fee
+Obstetrician,National (Mediclinic data),After-hours obstetrician surcharge,3000,8000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,Weekend/night premium
+Obstetrician,Mediclinic Sandton,NVD delivery (obstetrician component),30000,30000,2023,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,NVD,2023 reference - premium practice
+Obstetrician,Mediclinic Sandton,CS delivery (obstetrician component),40000,40000,2023,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,CS,2023 reference - premium practice
+Obstetrician,Port Elizabeth,NVD delivery (obstetrician component),20000,20000,2023,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,NVD,Less urban area
+Assistant surgeon,National (Mediclinic data),Assistant surgeon fee (CS only),6000,12000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,CS,Required for caesarean
+Assistant surgeon,National (Life Healthcare data),Assistant surgeon fee (CS only),6000,10000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,CS,Required for caesarean

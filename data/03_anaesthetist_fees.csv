@@ -1,0 +1,10 @@
+provider_type,provider_name_or_region,service_description,price_low_rands,price_high_rands,year,source_url,delivery_type,notes
+Anaesthetist,National (Mediclinic data),Epidural anaesthesia (NVD),6000,9000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,NVD,Epidural for labour pain relief
+Anaesthetist,National (Mediclinic data),Spinal/general anaesthesia (CS),9000,14000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,CS,Caesarean section anaesthesia
+Anaesthetist,National (Life Healthcare data),Epidural anaesthesia (NVD),6000,8500,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,NVD,Epidural for labour pain relief
+Anaesthetist,National (Life Healthcare data),Spinal/general anaesthesia (CS),9000,13000,2025,https://www.pmbcare.co.za/life-healthcare-maternity-fees-2025-guide/,CS,Caesarean section anaesthesia
+Anaesthetist,Gauteng & Western Cape,Total anaesthetist fee range,6000,15000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,Regional range
+Anaesthetist,KwaZulu-Natal,Total anaesthetist fee range,5000,12000,2025,https://www.pmbcare.co.za/private-hospital-birth-costs-south-africa-2025/,Both,Lower than GP/WC
+Anaesthetist,National (Mediclinic data),After-hours anaesthetist surcharge,2000,4000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,Weekend/night premium
+Anaesthetist,Medical aid rate,Typical medical aid reimbursement,2000,2000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,Both,Gap between this and actual fee
+Anaesthetist,National,Epidural add-on to NVD first day,2000,2000,2025,https://www.pmbcare.co.za/mediclinic-maternity-costs-2025-birth-prices/,NVD,Additional to first-day cost
