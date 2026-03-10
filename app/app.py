@@ -403,10 +403,39 @@ with st.form("noh_lead_form"):
     submitted = st.form_submit_button("Request a quote")
     if submitted:
         if lead_name and lead_email:
-            st.success(
-                f"Thank you, {lead_name}! We'll be in touch at {lead_email} "
-                "with a personalised quote from Network One Health."
-            )
+            # Save lead to Supabase
+            from engine.data_loader import _get_supabase
+            sb = _get_supabase()
+            lead_saved = False
+            if sb:
+                try:
+                    sb.table("leads").insert({
+                        "name": lead_name,
+                        "email": lead_email,
+                        "phone": lead_phone or None,
+                        "province": lead_province,
+                        "gestational_weeks": lead_weeks,
+                        "delivery_preference": delivery_type,
+                        "risk_level": risk_level,
+                        "noh_estimate_low": noh["noh_total_low"],
+                        "noh_estimate_high": noh["noh_total_high"],
+                        "ffs_estimate_low": noh["ffs_total_low"],
+                        "ffs_estimate_high": noh["ffs_total_high"],
+                    }).execute()
+                    lead_saved = True
+                except Exception:
+                    pass
+            if lead_saved:
+                st.success(
+                    f"Thank you, {lead_name}! Your details have been sent to "
+                    "Network One Health. We'll be in touch at "
+                    f"{lead_email} with a personalised quote."
+                )
+            else:
+                st.success(
+                    f"Thank you, {lead_name}! We'll be in touch at {lead_email} "
+                    "with a personalised quote from Network One Health."
+                )
         else:
             st.warning("Please enter your name and email.")
 
