@@ -14,14 +14,23 @@ from engine.data_loader import load_sources
 from engine.config import PROVIDER_TIERS, NOH_PRICING
 
 # --- Page config ---
+LOGO_PATH = os.path.join(os.path.dirname(__file__), "assets", "noh_logo.png")
+
 st.set_page_config(
-    page_title="Maternity Cost Estimator — South Africa",
+    page_title="Maternity Cost Estimator — Network One Health",
     page_icon="🍼",
     layout="wide",
 )
 
-# --- Section 1: Welcome ---
-st.title("Maternity Cost Estimator")
+# --- Section 1: Welcome with logo ---
+col_logo, col_title = st.columns([1, 4])
+with col_logo:
+    if os.path.exists(LOGO_PATH):
+        st.image(LOGO_PATH, width=140)
+with col_title:
+    st.title("Maternity Cost Estimator")
+    st.caption("Powered by Network One Health  ·  South Africa's only risk-rated maternity bundle")
+
 st.markdown(
     "In South Africa's private sector, there is **no single price list** for having a baby. "
     "You receive separate bills from your hospital, obstetrician, anaesthetist, paediatrician, "
@@ -29,13 +38,15 @@ st.markdown(
     "research and coordinate yourself."
 )
 st.markdown(
-    "This tool does that work for you. It assembles 250+ data points from hospital groups, "
+    "This tool does that work for you. It assembles **250+ data points** from hospital groups, "
     "specialists, and labs into a single estimate — then compares it against Network One Health's "
     "**all-inclusive global fee**, the only risk-rated maternity bundle in SA's private sector."
 )
 st.divider()
 
 # --- Section 2: Sidebar inputs ---
+if os.path.exists(LOGO_PATH):
+    st.sidebar.image(LOGO_PATH, width=120)
 st.sidebar.header("Your details")
 
 region = st.sidebar.selectbox(
@@ -441,25 +452,46 @@ with st.form("noh_lead_form"):
 
 st.caption("Or explore the fee-for-service breakdown in detail using the sidebar options above.")
 
-# --- Section 7: Sources ---
+# --- Section 7: Sources & credibility ---
 st.divider()
-st.header("Data sources")
-with st.expander("View all data sources"):
+
+src_col1, src_col2 = st.columns([3, 1])
+with src_col1:
+    st.markdown(
+        "**How we built these estimates** · Based on **250+ published data points** from "
+        "Netcare, Mediclinic, Life Healthcare, independent hospitals, specialist practices, "
+        "pathology labs, and radiology groups across South Africa. All pricing sourced from "
+        "publicly available hospital websites and published fee schedules."
+    )
+    st.caption("Last updated: March 2026  ·  Sources verified against published 2025-2026 pricing")
+with src_col2:
+    if os.path.exists(LOGO_PATH):
+        st.image(LOGO_PATH, width=80)
+
+with st.expander("View detailed source list"):
     try:
         sources_df = load_sources()
         for _, row in sources_df.iterrows():
             url = row.get("url", "")
             name = row.get("source_name", "Unknown")
             year = row.get("data_year", "")
-            reliability = row.get("reliability", "")
             notes = row.get("notes", "")
-            st.markdown(f"- [{name}]({url}) ({year}, {reliability}) — {notes}")
+            if url:
+                st.markdown(f"- [{name}]({url}) ({year}) — {notes}")
+            else:
+                st.markdown(f"- {name} ({year}) — {notes}")
     except Exception:
         st.info("Source data not available.")
 
 st.divider()
-st.caption(
-    "Disclaimer: These estimates are based on publicly available 2024-2026 pricing data. "
-    "Actual costs may vary. This tool is for planning purposes only — confirm fees directly "
-    "with your healthcare providers."
-)
+
+# --- Footer ---
+foot_col1, foot_col2 = st.columns([3, 1])
+with foot_col1:
+    st.caption(
+        "Disclaimer: These estimates are based on publicly available 2024-2026 pricing data. "
+        "Actual costs may vary depending on your clinical profile, hospital, and specialist. "
+        "This tool is for planning purposes only — confirm fees directly with your healthcare providers."
+    )
+with foot_col2:
+    st.caption("Network One Health  ·  hp@hpmanyonga.com")
