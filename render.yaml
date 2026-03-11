@@ -8,5 +8,11 @@ services:
         sync: false
       - key: SUPABASE_KEY
         sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: SUPABASE_DB_PASSWORD
+        sync: false
+      - key: NETWORK_ONE_AUDIT_SALT
+        sync: false
       - key: PORT
-        value: "8000"
+        value: "8501"

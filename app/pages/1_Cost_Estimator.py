@@ -1,26 +1,18 @@
-"""Streamlit web app for the Maternity Cost Estimator."""
+"""FFS vs NOH cost comparison — public page."""
 
 import sys
 import os
 import pandas as pd
 import streamlit as st
 
-# Add project root to path so engine imports work
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 from engine.estimator import estimate, estimate_noh, EstimatorInput, CostBreakdown
 from engine.budget_planner import calculate_savings_plan, calculate_noh_payment_plan
 from engine.data_loader import load_sources
-from engine.config import PROVIDER_TIERS, NOH_PRICING
+from engine.config import NOH_PRICING
 
-# --- Page config ---
-LOGO_PATH = os.path.join(os.path.dirname(__file__), "assets", "noh_logo.png")
-
-st.set_page_config(
-    page_title="Maternity Cost Estimator — Network One Health",
-    page_icon="🍼",
-    layout="wide",
-)
+LOGO_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "assets", "noh_logo.png")
 
 # --- Section 1: Welcome with logo ---
 col_logo, col_title = st.columns([1, 4])
@@ -124,6 +116,7 @@ else:
         min_value=1, max_value=24, value=6,
     )
     weeks_remaining = int(months_until * 4.33) + 40
+    gestational_weeks = 0
 
 # --- Run estimates ---
 inp = EstimatorInput(
@@ -134,7 +127,7 @@ inp = EstimatorInput(
     wants_epidural=wants_epidural,
     wants_midwife=False,
     wants_doula=wants_doula,
-    gestational_weeks=gestational_weeks if planning_mode == "Currently pregnant" else 0,
+    gestational_weeks=gestational_weeks,
 )
 
 noh = estimate_noh(inp)
@@ -196,7 +189,6 @@ st.header("Fee-for-service vs. NOH Maternity Bundle")
 
 col_ffs, col_noh = st.columns(2)
 
-# --- Left column: Fee-for-service ---
 with col_ffs:
     st.subheader("Fee-for-service")
     st.markdown(
@@ -225,7 +217,6 @@ with col_ffs:
         "deposit schedule, payment terms, and potential for gap payments above medical aid rates."
     )
 
-# --- Right column: NOH Bundle ---
 with col_noh:
     st.subheader("Network One Health — All-inclusive global fee")
     st.markdown("**:green[Recommended]** · South Africa's only risk-rated maternity bundle")
@@ -236,38 +227,32 @@ with col_noh:
         "pathology lab, or any other provider listed below. Everything is covered."
     )
 
-    # Single fee display
     st.metric(
         "NOH all-inclusive fee",
         f"R {noh['noh_fee_low']:,} — R {noh['noh_fee_high']:,}",
     )
 
-    # What's included checklist
     st.markdown("**Everything included in one fee — no separate bills:**")
     for item in noh["inclusions"]:
         st.markdown(f"- :green[**+**] {item}")
 
-    # What's not included
     st.markdown("**Not included** (added to your estimate separately):")
     for item in noh["exclusions"]:
         st.markdown(f"- {item} (R {noh['paediatrician'][0]:,} — R {noh['paediatrician'][1]:,})")
 
     st.divider()
 
-    # Total with paed
     st.metric(
         "Your total (NOH bundle + paediatrician)",
         f"R {noh['noh_total_low']:,} — R {noh['noh_total_high']:,}",
     )
 
-    # Savings callout
     if noh["savings_high"] > 0:
         st.success(
             f"**Save R {noh['savings_low']:,} — R {noh['savings_high']:,}** "
             f"vs. fee-for-service ({noh['savings_percent_low']}–{noh['savings_percent_high']}%)"
         )
 
-    # Monthly payment
     noh_plan = calculate_noh_payment_plan(noh["noh_total_low"], noh["noh_total_high"])
     st.info(
         f"**From R {noh_plan['monthly_low']:,}/month** over {noh_plan['months']} months "
@@ -289,7 +274,6 @@ st.header("Budget planner")
 
 col_ffs_plan, col_noh_plan = st.columns(2)
 
-# Fee-for-service budget plan
 with col_ffs_plan:
     st.subheader("Fee-for-service payments")
 
@@ -315,7 +299,6 @@ with col_ffs_plan:
         "Each provider sets their own deposit and payment schedule independently."
     )
 
-# NOH payment plan
 with col_noh_plan:
     st.subheader("NOH payment plan")
 
@@ -375,7 +358,6 @@ for i, (tier, label) in enumerate(zip(tiers, tier_labels)):
         st.caption(f"~R {tier_plan['monthly_low']:,}—R {tier_plan['monthly_high']:,}/mo if spread over 12 months")
         st.caption("Assembled estimate — paid as 6-7 separate bills")
 
-# NOH column in comparison
 with compare_cols[3]:
     st.subheader(":green[NOH Bundle]")
     st.markdown("**:green[Recommended]**")
@@ -414,7 +396,6 @@ with st.form("noh_lead_form"):
     submitted = st.form_submit_button("Request a quote")
     if submitted:
         if lead_name and lead_email:
-            # Save lead to Supabase
             from engine.data_loader import _get_supabase
             sb = _get_supabase()
             lead_saved = False
@@ -485,7 +466,6 @@ with st.expander("View detailed source list"):
 
 st.divider()
 
-# --- Footer ---
 foot_col1, foot_col2 = st.columns([3, 1])
 with foot_col1:
     st.caption(
@@ -494,4 +474,4 @@ with foot_col1:
         "This tool is for planning purposes only — confirm fees directly with your healthcare providers."
     )
 with foot_col2:
-    st.caption("Network One Health  ·  hp@hpmanyonga.com")
+    st.caption("Network One Health  ·  Info@networkonehealth.co.za")
