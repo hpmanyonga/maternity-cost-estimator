@@ -93,6 +93,7 @@ NOH_PRICING = {
     "global_fee_low": 29_900,   # Mat001_LOW
     "global_fee_high": 64_000,  # Mat003
     "cs_addon": 2_000,
+    "epidural_addon": 3_500,
     "risk_addon": {"low": 0, "medium": 5_800, "high": 11_500},
     "regions": ["Gauteng", "Western Cape", "KwaZulu-Natal", "Other"],
     "inclusions": [
@@ -110,7 +111,7 @@ NOH_PRICING = {
         "Paediatrician newborn assessment",
     ],
     "payment_terms": {
-        "months": 12,
+        "months": 6,
         "deposit_percent": 10,
     },
 }

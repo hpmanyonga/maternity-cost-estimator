@@ -14,5 +14,9 @@ services:
         sync: false
       - key: NETWORK_ONE_AUDIT_SALT
         sync: false
+      - key: GOOGLE_SHEETS_CREDENTIALS
+        sync: false
+      - key: GOOGLE_SHEETS_ID
+        sync: false
       - key: PORT
         value: "8501"

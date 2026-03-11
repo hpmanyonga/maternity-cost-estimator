@@ -378,7 +378,49 @@ with tab_request:
                             result="success",
                             detail=f"request_id={request_id};quote_id={quote_id}",
                         )
-                        st.success("Thanks. Your request has been saved and sent to the NOH team.")
+
+                        # Also send to Google Sheets
+                        try:
+                            from engine.sheets import append_lead
+                            append_lead({
+                                "Name": full_name.strip(),
+                                "Email": email.strip() or "",
+                                "Phone": mobile.strip(),
+                                "Province": "",
+                                "Timing": gestation_group,
+                                "Birth Type": delivery_ui,
+                                "Care Complexity": quote.complexity_tier,
+                                "NOH Low": str(estimate_low),
+                                "NOH High": str(estimate_high),
+                                "FFS Low": "",
+                                "FFS High": "",
+                                "Source Page": "QuickQuote",
+                            })
+                        except Exception:
+                            pass
+
+                        # Send automated emails
+                        try:
+                            from engine.email_sender import send_client_confirmation, send_team_notification
+                            if email.strip():
+                                send_client_confirmation(
+                                    name=full_name.strip(), email=email.strip(),
+                                    noh_low=estimate_low, noh_high=estimate_high,
+                                    ffs_low=0, ffs_high=0,
+                                    source="QuickQuote",
+                                )
+                            send_team_notification(
+                                name=full_name.strip(), email=email.strip() or "",
+                                phone=mobile.strip(), province="",
+                                timing=gestation_group, birth_type=delivery_ui,
+                                complexity=quote.complexity_tier,
+                                noh_low=estimate_low, noh_high=estimate_high,
+                                source="QuickQuote",
+                            )
+                        except Exception:
+                            pass
+
+                        st.success("Thanks. Your request has been saved and sent to the NOH team. Check your inbox for a confirmation.")
                     except SQLAlchemyError:
                         st.error("We could not save your request to the database. Please try again.")
                         st.stop()

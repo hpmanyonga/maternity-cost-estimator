@@ -566,6 +566,11 @@ def estimate_noh(inp: EstimatorInput) -> dict:
         noh_low += NOH_PRICING["cs_addon"]
         noh_high += NOH_PRICING["cs_addon"]
 
+    # Epidural add-on (vaginal only — CS already includes anaesthetist)
+    if inp.wants_epidural and inp.delivery_type != "CS":
+        noh_low += NOH_PRICING["epidural_addon"]
+        noh_high += NOH_PRICING["epidural_addon"]
+
     # Risk add-on
     risk_addon = NOH_PRICING["risk_addon"].get(inp.risk_level, 0)
     noh_low += risk_addon

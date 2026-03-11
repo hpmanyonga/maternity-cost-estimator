@@ -7,3 +7,6 @@ python-docx>=1.0
 SQLAlchemy>=2.0
 psycopg[binary]>=3.1
 PyJWT[crypto]>=2.8
+gspread>=6.0.0
+google-api-python-client>=2.100.0
+google-auth>=2.23.0
