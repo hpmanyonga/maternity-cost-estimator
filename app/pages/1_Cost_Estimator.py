@@ -48,7 +48,8 @@ st.markdown(
     f"""<style>
     [data-testid="stSidebar"]{{display:none}}
     [data-testid="stSidebarCollapsedControl"]{{display:none}}
-    .block-container{{max-width:960px;padding-top:1rem}}
+    .block-container{{max-width:960px;padding-top:2.5rem}}
+    [data-testid="stToolbar"]{{display:none}}
     .stFormSubmitButton>button[kind="primary"] {{
         background-color: {NOH} !important;
         border-color: {NOH} !important;
