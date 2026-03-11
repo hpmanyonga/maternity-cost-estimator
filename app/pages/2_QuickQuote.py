@@ -57,6 +57,18 @@ def _get_storage() -> Optional[NetworkOneStorage]:
 contact_phone = _secret_or_default("NOH_CONTACT_PHONE", "011 458 2497")
 contact_email = _secret_or_default("NOH_CONTACT_EMAIL", "Info@networkonehealth.co.za")
 
+# Hide sidebar on this public page
+st.markdown(
+    """
+    <style>
+    [data-testid="stSidebar"] { display: none; }
+    [data-testid="stSidebarCollapsedControl"] { display: none; }
+    .block-container { max-width: 1100px; padding-top: 2rem; }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 head_left, head_right = st.columns([1.4, 0.6], gap="large")
 with head_left:
     st.title("NOH QuickQuote")

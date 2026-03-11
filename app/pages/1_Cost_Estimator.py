@@ -1,4 +1,4 @@
-"""FFS vs NOH cost comparison — public page."""
+"""Maternity Cost Estimator — public guided quote tool."""
 
 import sys
 import os
@@ -14,111 +14,196 @@ from engine.config import NOH_PRICING
 
 LOGO_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "assets", "noh_logo.png")
 
-# --- Section 1: Welcome with logo ---
-col_logo, col_title = st.columns([1, 4])
-with col_logo:
+
+# ── Helpers ──
+def _show_breakdown(breakdown: CostBreakdown):
+    """Render a cost breakdown as a clean table."""
+    labels = {
+        "hospital": "Hospital",
+        "obstetrician": "Obstetrician",
+        "anaesthetist": "Anaesthetist",
+        "paediatrician": "Paediatrician (newborn check)",
+        "pathology": "Blood tests and lab tests",
+        "ultrasound": "Scans",
+        "medication": "Medicines",
+        "midwife": "Midwife",
+        "doula": "Doula",
+    }
+    rows = []
+    for attr, label in labels.items():
+        low, high = getattr(breakdown, attr)
+        if low > 0 or high > 0:
+            rows.append({"Service": label, "Low (R)": f"R {low:,}", "High (R)": f"R {high:,}"})
+
+    rows.append({
+        "Service": "TOTAL",
+        "Low (R)": f"R {breakdown.total[0]:,}",
+        "High (R)": f"R {breakdown.total[1]:,}",
+    })
+
+    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+
+
+# ── Hide sidebar on this public page ──
+st.markdown(
+    """
+    <style>
+    [data-testid="stSidebar"] { display: none; }
+    [data-testid="stSidebarCollapsedControl"] { display: none; }
+    .block-container { max-width: 1100px; padding-top: 2rem; }
+    .noh-result-card {
+        border: 2px solid #10b981;
+        border-radius: 16px;
+        padding: 24px;
+        background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+        position: sticky;
+        top: 3.5rem;
+    }
+    .noh-price-big {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #102a43;
+        margin: 0.15rem 0;
+    }
+    .noh-price-label {
+        font-size: 0.85rem;
+        color: #486581;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+    .noh-savings {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #059669;
+        margin: 0.3rem 0;
+    }
+    .noh-monthly {
+        font-size: 1rem;
+        color: #102a43;
+        margin: 0.2rem 0;
+    }
+    .noh-card-section {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 18px 20px;
+        background: #fff;
+    }
+    .noh-trust {
+        font-size: 0.85rem;
+        color: #64748b;
+        line-height: 1.5;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+# ── Top bar ──
+top_left, top_right = st.columns([5, 1])
+with top_left:
+    st.markdown("## Maternity Cost Estimator")
+    st.markdown(
+        "Estimate what private maternity care could cost, then compare "
+        "separate bills with the NOH all-in-one bundle."
+    )
+with top_right:
     if os.path.exists(LOGO_PATH):
-        st.image(LOGO_PATH, width=140)
-with col_title:
-    st.title("Maternity Cost Estimator")
-    st.caption("Powered by Network One Health  ·  South Africa's only risk-rated maternity bundle")
+        st.image(LOGO_PATH, width=90)
 
 st.markdown(
-    "In South Africa's private sector, there is **no single price list** for having a baby. "
-    "You receive separate bills from your hospital, obstetrician, anaesthetist, paediatrician, "
-    "pathology lab, and radiology practice — typically **6-7 separate accounts** that you must "
-    "research and coordinate yourself."
-)
-st.markdown(
-    "This tool does that work for you. It assembles **250+ data points** from hospital groups, "
-    "specialists, and labs into a single estimate — then compares it against Network One Health's "
-    "**all-inclusive global fee**, the only risk-rated maternity bundle in SA's private sector."
-)
-st.divider()
-
-# --- Section 2: Sidebar inputs ---
-if os.path.exists(LOGO_PATH):
-    st.sidebar.image(LOGO_PATH, width=120)
-st.sidebar.header("Your details")
-
-region = st.sidebar.selectbox(
-    "Province",
-    ["Gauteng", "Western Cape", "KwaZulu-Natal", "Other"],
-    help="Costs vary by region. Select the province where you plan to deliver.",
+    '<p class="noh-trust">Based on published South African private-sector pricing. '
+    "Final quote depends on your hospital, doctor, and clinical needs.</p>",
+    unsafe_allow_html=True,
 )
 
-delivery_type = st.sidebar.selectbox(
-    "Delivery preference",
-    ["NVD", "CS", "Undecided"],
-    format_func=lambda x: {
-        "NVD": "Natural vaginal delivery (NVD)",
-        "CS": "Caesarean section (CS)",
-        "Undecided": "Not sure yet — show me both",
-    }[x],
-)
+# ── Inputs + Result card (two-column hero) ──
+input_col, spacer, result_col = st.columns([1.1, 0.05, 0.85])
 
-risk_level = st.sidebar.selectbox(
-    "Risk level",
-    ["low", "medium", "high"],
-    format_func=lambda x: x.capitalize(),
-    help=(
-        "**Low:** Healthy pregnancy, no complications expected. 3 scans.\n\n"
-        "**Medium:** Some risk factors (age, BMI, previous CS). 5 scans, extra bloods.\n\n"
-        "**High:** Known complications, chronic conditions. 7 scans, extra bloods, NICU awareness."
-    ),
-)
-
-st.sidebar.markdown("---")
-st.sidebar.subheader("Fee-for-service options")
-
-provider_tier = st.sidebar.selectbox(
-    "Hospital group (fee-for-service)",
-    ["budget", "mid-range", "premium"],
-    index=1,
-    format_func=lambda x: x.capitalize(),
-    help=(
-        "If going fee-for-service, which hospital group?\n\n"
-        "**Budget:** Life Healthcare, independent hospitals.\n\n"
-        "**Mid-range:** Mediclinic group.\n\n"
-        "**Premium:** Netcare group."
-    ),
-)
-
-wants_epidural = False
-if delivery_type in ("NVD", "Undecided"):
-    wants_epidural = st.sidebar.checkbox(
-        "Epidural (NVD)",
-        help="Epidural anaesthesia for pain relief during natural delivery. Adds anaesthetist fee.",
+with input_col:
+    region = st.selectbox(
+        "Where will you deliver?",
+        ["Gauteng", "Western Cape", "KwaZulu-Natal", "Other"],
+        help="Costs vary by province.",
     )
 
-wants_doula = st.sidebar.checkbox(
-    "Doula support (fee-for-service only)",
-    help="Additional birth companion. Already included in the NOH bundle.",
-)
-
-st.sidebar.markdown("---")
-st.sidebar.subheader("Budget planner")
-
-planning_mode = st.sidebar.radio(
-    "Timing",
-    ["Currently pregnant", "Planning ahead"],
-)
-
-if planning_mode == "Currently pregnant":
-    gestational_weeks = st.sidebar.slider(
-        "Current gestational weeks",
-        min_value=4, max_value=40, value=12,
+    delivery_labels = {
+        "NVD": "Vaginal birth",
+        "CS": "Planned caesarean",
+        "Undecided": "Not sure yet",
+    }
+    delivery_type = st.segmented_control(
+        "Planned birth type",
+        options=list(delivery_labels.keys()),
+        format_func=lambda x: delivery_labels[x],
+        default="Undecided",
     )
-    weeks_remaining = 40 - gestational_weeks
-else:
-    months_until = st.sidebar.slider(
-        "Months until planned pregnancy",
-        min_value=1, max_value=24, value=6,
+
+    risk_level = st.selectbox(
+        "Care complexity",
+        ["low", "medium", "high"],
+        format_func=lambda x: x.capitalize(),
+        help=(
+            "**Low** = routine pregnancy, no complications expected.\n\n"
+            "**Medium** = extra scans or monitoring needed.\n\n"
+            "**High** = more medical complexity (chronic conditions, twins, etc.)."
+        ),
     )
-    weeks_remaining = int(months_until * 4.33) + 40
+
+    provider_tier = st.selectbox(
+        "Hospital price level",
+        ["budget", "mid-range", "premium"],
+        index=1,
+        format_func=lambda x: x.capitalize(),
+        help=(
+            "**Budget** — Life Healthcare, independent hospitals.\n\n"
+            "**Mid-range** — Mediclinic.\n\n"
+            "**Premium** — Netcare."
+        ),
+    )
+
+    opts_left, opts_right = st.columns(2)
+    with opts_left:
+        wants_epidural = False
+        if delivery_type in ("NVD", "Undecided"):
+            wants_epidural = st.checkbox(
+                "Epidural during labour",
+                help="Pain relief during vaginal birth. Adds anaesthetist fee.",
+            )
+    with opts_right:
+        wants_doula = st.checkbox(
+            "Doula support",
+            help="Already included in the NOH bundle.",
+        )
+
+    timing_choice = st.segmented_control(
+        "Are you pregnant now?",
+        options=["Pregnant now", "Planning pregnancy"],
+        default="Pregnant now",
+    )
+
+    gestation_group = "Under 12 weeks"
     gestational_weeks = 0
+    weeks_remaining = 40
 
-# --- Run estimates ---
+    if timing_choice == "Pregnant now":
+        gestation_group = st.select_slider(
+            "How far along are you?",
+            options=["Under 12 weeks", "12 to 20 weeks", "20 to 28 weeks", "28+ weeks"],
+            value="Under 12 weeks",
+        )
+        week_map = {
+            "Under 12 weeks": 8,
+            "12 to 20 weeks": 16,
+            "20 to 28 weeks": 24,
+            "28+ weeks": 32,
+        }
+        gestational_weeks = week_map[gestation_group]
+        weeks_remaining = 40 - gestational_weeks
+    else:
+        weeks_remaining = 40 + 24
+
+# ── Run estimates ──
 inp = EstimatorInput(
     region=region,
     delivery_type=delivery_type,
@@ -133,267 +218,144 @@ inp = EstimatorInput(
 noh = estimate_noh(inp)
 ffs_result = noh["ffs_result"]
 
+if isinstance(ffs_result, dict):
+    ffs_display_low = noh["ffs_total_low"]
+    ffs_display_high = noh["ffs_total_high"]
+else:
+    ffs_display_low = ffs_result.total[0]
+    ffs_display_high = ffs_result.total[1]
 
-def _display_breakdown(breakdown: CostBreakdown, label: str = ""):
-    """Display a cost breakdown as a table."""
-    if label:
-        st.subheader(label)
+noh_plan = calculate_noh_payment_plan(noh["noh_total_low"], noh["noh_total_high"])
 
-    rows = []
-    fields = [
-        ("Hospital", breakdown.hospital),
-        ("Obstetrician", breakdown.obstetrician),
-        ("Anaesthetist", breakdown.anaesthetist),
-        ("Paediatrician", breakdown.paediatrician),
-        ("Pathology", breakdown.pathology),
-        ("Ultrasound", breakdown.ultrasound),
-        ("Medication", breakdown.medication),
-        ("Midwife", breakdown.midwife),
-        ("Doula", breakdown.doula),
-    ]
+# ── Sticky result card ──
+with result_col:
+    st.markdown('<div class="noh-result-card">', unsafe_allow_html=True)
 
-    for name, (low, high) in fields:
-        if low > 0 or high > 0:
-            rows.append({
-                "Category": name,
-                "Low estimate (R)": f"R {low:,}",
-                "High estimate (R)": f"R {high:,}",
-            })
+    st.markdown("**Your estimate**")
 
-    rows.append({
-        "Category": "TOTAL",
-        "Low estimate (R)": f"R {breakdown.total[0]:,}",
-        "High estimate (R)": f"R {breakdown.total[1]:,}",
-    })
-
-    df = pd.DataFrame(rows)
-    st.dataframe(
-        df,
-        use_container_width=True,
-        hide_index=True,
-    )
-
-    with st.expander("View detailed line items"):
-        if breakdown.line_items:
-            items_df = pd.DataFrame(breakdown.line_items)
-            items_df["low"] = items_df["low"].apply(lambda x: f"R {x:,}")
-            items_df["high"] = items_df["high"].apply(lambda x: f"R {x:,}")
-            items_df.columns = ["Category", "Service", "Provider", "Low (R)", "High (R)"]
-            st.dataframe(items_df, use_container_width=True, hide_index=True)
-        else:
-            st.info("No detailed items available for this estimate.")
-
-
-# --- Section 3: The Comparison ---
-st.header("Fee-for-service vs. NOH Maternity Bundle")
-
-col_ffs, col_noh = st.columns(2)
-
-with col_ffs:
-    st.subheader("Fee-for-service")
+    st.markdown('<p class="noh-price-label">Separate bills</p>', unsafe_allow_html=True)
     st.markdown(
-        "Each row below is a **separate provider** billing you independently. "
-        "No hospital in SA gives you this total upfront — we assembled it from public data."
+        f'<p class="noh-price-big">R {ffs_display_low:,.0f} — R {ffs_display_high:,.0f}</p>',
+        unsafe_allow_html=True,
     )
 
-    if isinstance(ffs_result, dict):
-        tab_nvd, tab_cs = st.tabs(["NVD estimate", "CS estimate"])
-        with tab_nvd:
-            _display_breakdown(ffs_result["NVD"])
-        with tab_cs:
-            _display_breakdown(ffs_result["CS"])
-        ffs_display_low = noh["ffs_total_low"]
-        ffs_display_high = noh["ffs_total_high"]
-    else:
-        _display_breakdown(ffs_result)
-        ffs_display_low = ffs_result.total[0]
-        ffs_display_high = ffs_result.total[1]
-
-    st.markdown(f"**Estimated total: R {ffs_display_low:,} — R {ffs_display_high:,}**")
-    st.warning(
-        "This total is an estimate we've compiled for you. In practice you'd receive "
-        "**6-7 separate bills** from independent providers — hospital, obstetrician, "
-        "anaesthetist, paediatrician, pathology lab, and radiology — each with their own "
-        "deposit schedule, payment terms, and potential for gap payments above medical aid rates."
-    )
-
-with col_noh:
-    st.subheader("Network One Health — All-inclusive global fee")
-    st.markdown("**:green[Recommended]** · South Africa's only risk-rated maternity bundle")
-
+    st.markdown('<p class="noh-price-label">NOH all-in-one bundle</p>', unsafe_allow_html=True)
     st.markdown(
-        "This is a **single, all-inclusive fee** — not a hospital-only quote. "
-        "There are **no additional bills** from the hospital, obstetrician, anaesthetist, "
-        "pathology lab, or any other provider listed below. Everything is covered."
-    )
-
-    st.metric(
-        "NOH all-inclusive fee",
-        f"R {noh['noh_fee_low']:,} — R {noh['noh_fee_high']:,}",
-    )
-
-    st.markdown("**Everything included in one fee — no separate bills:**")
-    for item in noh["inclusions"]:
-        st.markdown(f"- :green[**+**] {item}")
-
-    st.markdown("**Not included** (added to your estimate separately):")
-    for item in noh["exclusions"]:
-        st.markdown(f"- {item} (R {noh['paediatrician'][0]:,} — R {noh['paediatrician'][1]:,})")
-
-    st.divider()
-
-    st.metric(
-        "Your total (NOH bundle + paediatrician)",
-        f"R {noh['noh_total_low']:,} — R {noh['noh_total_high']:,}",
+        f'<p class="noh-price-big" style="color:#059669">'
+        f"R {noh['noh_total_low']:,.0f} — R {noh['noh_total_high']:,.0f}</p>",
+        unsafe_allow_html=True,
     )
 
     if noh["savings_high"] > 0:
-        st.success(
-            f"**Save R {noh['savings_low']:,} — R {noh['savings_high']:,}** "
-            f"vs. fee-for-service ({noh['savings_percent_low']}–{noh['savings_percent_high']}%)"
+        st.markdown(
+            f'<p class="noh-savings">You could save up to R {noh["savings_high"]:,.0f}</p>',
+            unsafe_allow_html=True,
         )
-
-    noh_plan = calculate_noh_payment_plan(noh["noh_total_low"], noh["noh_total_high"])
-    st.info(
-        f"**From R {noh_plan['monthly_low']:,}/month** over {noh_plan['months']} months "
-        f"(after R {noh_plan['deposit_low']:,} deposit)"
-    )
 
     st.markdown(
-        "**How this differs from hospital 'packages':** Hospital groups like Netcare, "
-        "Mediclinic, and Life Healthcare may quote a facility fee, but that excludes "
-        "your obstetrician, anaesthetist, pathology, and scans — you still get 5-6 "
-        "separate bills. The NOH global fee covers all of these in one price, "
-        "set at booking based on your clinical profile. No surprises."
-    )
-    st.caption("Antenatal classes included — not available fee-for-service")
-
-# --- Section 4: Budget planner comparison ---
-st.divider()
-st.header("Budget planner")
-
-col_ffs_plan, col_noh_plan = st.columns(2)
-
-with col_ffs_plan:
-    st.subheader("Fee-for-service payments")
-
-    ffs_plan = calculate_savings_plan(
-        noh["ffs_total_low"], noh["ffs_total_high"], weeks_remaining,
+        f'<p class="noh-monthly">From <strong>R {noh_plan["monthly_low"]:,}/month</strong> '
+        f'over {noh_plan["months"]} months</p>',
+        unsafe_allow_html=True,
     )
 
-    m1, m2, m3 = st.columns(3)
-    with m1:
-        st.metric("Monthly savings target", f"R {ffs_plan.monthly_low:,} — R {ffs_plan.monthly_high:,}")
-    with m2:
-        st.metric("Months to save", f"{ffs_plan.months_remaining}")
-    with m3:
-        st.metric("Total", f"R {noh['ffs_total_low']:,} — R {noh['ffs_total_high']:,}")
+    st.markdown("")
 
-    st.markdown("**Payment milestones:**")
-    for m in ffs_plan.milestones:
-        week_str = f" (week {m['week']})" if m["week"] else ""
-        st.markdown(f"- **{m['milestone']}** — {m['when']}{week_str}: _{m['estimate']}_")
-
-    st.caption(
-        "Multiple lump-sum payments to different providers at different times. "
-        "Each provider sets their own deposit and payment schedule independently."
+    st.markdown(
+        '<a href="#get-your-personalised-quote" style="display:block;text-align:center;'
+        "background:#059669;color:white;padding:0.6rem 1rem;border-radius:8px;"
+        'text-decoration:none;font-weight:600;margin-top:0.5rem;">Request my quote</a>',
+        unsafe_allow_html=True,
     )
 
-with col_noh_plan:
-    st.subheader("NOH payment plan")
+    st.caption("See what's included below")
 
-    noh_plan = calculate_noh_payment_plan(noh["noh_total_low"], noh["noh_total_high"])
+    st.markdown("</div>", unsafe_allow_html=True)
 
-    n1, n2, n3 = st.columns(3)
-    with n1:
-        st.metric("Monthly payment", f"R {noh_plan['monthly_low']:,} — R {noh_plan['monthly_high']:,}")
-    with n2:
-        st.metric("Deposit (10%)", f"R {noh_plan['deposit_low']:,} — R {noh_plan['deposit_high']:,}")
-    with n3:
-        st.metric("Over", f"{noh_plan['months']} months")
+# ── Comparison: Separate bills vs NOH bundle ──
+st.markdown("")
+st.markdown("---")
+st.markdown("### Separate bills vs NOH bundle")
 
-    st.markdown("**Simple payment schedule:**")
-    st.markdown(f"1. **Deposit** at booking: R {noh_plan['deposit_low']:,} — R {noh_plan['deposit_high']:,}")
-    st.markdown(f"2. **Monthly instalments** x{noh_plan['months']}: R {noh_plan['monthly_low']:,} — R {noh_plan['monthly_high']:,}/month")
-    st.markdown("3. **No surprise bills** — everything covered in the bundle")
+card_left, card_right = st.columns(2)
 
-    st.caption(
-        "One fixed monthly payment to one provider. No separate deposits to "
-        "hospital, OB, or anaesthetist. No coordination needed."
+with card_left:
+    st.markdown('<div class="noh-card-section">', unsafe_allow_html=True)
+    st.markdown("**Separate bills**")
+    st.markdown(
+        "- Hospital facility\n"
+        "- Obstetrician\n"
+        "- Anaesthetist\n"
+        "- Blood tests and scans\n"
+        "- Medicines\n"
+        "- Paid to different providers"
     )
+    st.markdown(
+        f"**R {ffs_display_low:,.0f} — R {ffs_display_high:,.0f}**"
+    )
+    st.markdown("</div>", unsafe_allow_html=True)
 
-# --- Section 5: Compare tiers ---
-st.divider()
-st.header("Compare all options")
+with card_right:
+    st.markdown('<div class="noh-card-section" style="border-color:#10b981">', unsafe_allow_html=True)
+    st.markdown("**NOH bundle** :green[Recommended]")
+    st.markdown(
+        "- One combined fee\n"
+        "- Antenatal visits\n"
+        "- Delivery care\n"
+        "- Anaesthetist\n"
+        "- Scans and blood tests\n"
+        "- Fewer billing surprises"
+    )
+    st.markdown(
+        f"**:green[R {noh['noh_total_low']:,.0f} — R {noh['noh_total_high']:,.0f}]**"
+    )
+    st.markdown("</div>", unsafe_allow_html=True)
 
-compare_cols = st.columns(4)
-tiers = ["budget", "mid-range", "premium"]
-tier_labels = ["FFS Budget", "FFS Mid-range", "FFS Premium"]
-tier_examples = {
-    "budget": "Life Healthcare",
-    "mid-range": "Mediclinic",
-    "premium": "Netcare",
-}
+# ── Cost breakdown (accordion) ──
+with st.expander("See cost breakdown"):
+    st.markdown(
+        f"**Separate bills total: R {ffs_display_low:,.0f} — R {ffs_display_high:,.0f}**"
+    )
+    if isinstance(ffs_result, dict):
+        tab_vaginal, tab_cs = st.tabs(["Vaginal birth", "Planned caesarean"])
+        with tab_vaginal:
+            _show_breakdown(ffs_result["NVD"])
+        with tab_cs:
+            _show_breakdown(ffs_result["CS"])
+    else:
+        _show_breakdown(ffs_result)
 
-for i, (tier, label) in enumerate(zip(tiers, tier_labels)):
-    with compare_cols[i]:
-        st.subheader(label)
-        st.caption(tier_examples[tier])
-        compare_inp = EstimatorInput(
-            region=region,
-            delivery_type=delivery_type if delivery_type != "Undecided" else "NVD",
-            risk_level=risk_level,
-            provider_tier=tier,
-            wants_epidural=wants_epidural,
-            wants_midwife=False,
-            wants_doula=wants_doula,
-        )
-        compare_result = estimate(compare_inp)
-        if isinstance(compare_result, dict):
-            compare_result = compare_result.get("NVD", list(compare_result.values())[0])
-        st.metric("Low", f"R {compare_result.total[0]:,}")
-        st.metric("High", f"R {compare_result.total[1]:,}")
-
-        tier_plan = calculate_noh_payment_plan(compare_result.total[0], compare_result.total[1])
-        st.caption(f"~R {tier_plan['monthly_low']:,}—R {tier_plan['monthly_high']:,}/mo if spread over 12 months")
-        st.caption("Assembled estimate — paid as 6-7 separate bills")
-
-with compare_cols[3]:
-    st.subheader(":green[NOH Bundle]")
-    st.markdown("**:green[Recommended]**")
-    st.metric("Low", f"R {noh['noh_total_low']:,}")
-    st.metric("High", f"R {noh['noh_total_high']:,}")
-    st.caption(f"R {noh_plan['monthly_low']:,}—R {noh_plan['monthly_high']:,}/mo over {noh_plan['months']} months")
-    st.caption("All-inclusive global fee: hospital, OB, anaesthetist, scans, bloods, doula, classes — no separate bills")
-
-# --- Section 6: Lead capture ---
-st.divider()
-st.header("Get started with Network One Health")
-
-st.markdown(
-    "Want a **personalised quote** from Network One Health? "
-    "Fill in your details and we'll be in touch."
+# ── Why separate bills feel unpredictable ──
+st.info(
+    "**Why separate bills feel unpredictable**\n\n"
+    "- Different providers bill separately\n"
+    "- Deposits and payment dates vary\n"
+    "- Final gaps depend on your cover and care needs"
 )
 
+# ── Quote form (moved up) ──
+st.markdown("---")
+st.markdown("### Get your personalised quote")
+st.markdown("We'll review your details and send you a tailored estimate.")
+
 with st.form("noh_lead_form"):
-    lc1, lc2 = st.columns(2)
-    with lc1:
+    fc1, fc2 = st.columns(2)
+    with fc1:
         lead_name = st.text_input("Name")
         lead_email = st.text_input("Email")
-    with lc2:
-        lead_phone = st.text_input("Phone (optional)")
+    with fc2:
+        lead_phone = st.text_input("Phone")
         lead_province = st.selectbox(
             "Province",
             ["Gauteng", "Western Cape", "KwaZulu-Natal", "Other"],
             key="lead_province",
         )
-    lead_weeks = st.slider(
-        "Current gestational weeks (0 = planning)",
-        min_value=0, max_value=40, value=0,
-        key="lead_weeks",
+
+    lead_timing = st.selectbox(
+        "Pregnancy timing",
+        ["Planning pregnancy", "Under 12 weeks", "12 to 20 weeks", "20 to 28 weeks", "28+ weeks"],
     )
 
-    submitted = st.form_submit_button("Request a quote")
+    submitted = st.form_submit_button("Request my quote", type="primary")
     if submitted:
         if lead_name and lead_email:
             from engine.data_loader import _get_supabase
@@ -406,7 +368,7 @@ with st.form("noh_lead_form"):
                         "email": lead_email,
                         "phone": lead_phone or None,
                         "province": lead_province,
-                        "gestational_weeks": lead_weeks,
+                        "gestational_weeks": gestational_weeks,
                         "delivery_preference": delivery_type,
                         "risk_level": risk_level,
                         "noh_estimate_low": noh["noh_total_low"],
@@ -419,59 +381,125 @@ with st.form("noh_lead_form"):
                     pass
             if lead_saved:
                 st.success(
-                    f"Thank you, {lead_name}! Your details have been sent to "
-                    "Network One Health. We'll be in touch at "
-                    f"{lead_email} with a personalised quote."
+                    f"Thanks, {lead_name}! Your details have been sent to "
+                    f"Network One Health. We'll contact you at {lead_email}."
                 )
             else:
                 st.success(
-                    f"Thank you, {lead_name}! We'll be in touch at {lead_email} "
-                    "with a personalised quote from Network One Health."
+                    f"Thanks, {lead_name}! We'll be in touch at {lead_email} "
+                    "with a personalised quote."
                 )
         else:
             st.warning("Please enter your name and email.")
 
-st.caption("Or explore the fee-for-service breakdown in detail using the sidebar options above.")
+# ── Plan your payments (collapsed) ──
+with st.expander("Plan your payments"):
+    pay_left, pay_right = st.columns(2)
 
-# --- Section 7: Sources & credibility ---
-st.divider()
+    with pay_left:
+        st.markdown("**Separate bills**")
+        ffs_plan = calculate_savings_plan(
+            noh["ffs_total_low"], noh["ffs_total_high"], weeks_remaining,
+        )
+        st.markdown(
+            f"Save **R {ffs_plan.monthly_low:,} — R {ffs_plan.monthly_high:,}/month** "
+            f"over {ffs_plan.months_remaining} months"
+        )
+        st.markdown("**Payment milestones:**")
+        for m in ffs_plan.milestones:
+            st.markdown(f"- **{m['milestone']}** — {m['when']}")
+        st.caption("Multiple payments to different providers at different times.")
 
-src_col1, src_col2 = st.columns([3, 1])
-with src_col1:
+    with pay_right:
+        st.markdown("**NOH payment plan**")
+        st.markdown(
+            f"Deposit (10%): **R {noh_plan['deposit_low']:,} — R {noh_plan['deposit_high']:,}**"
+        )
+        st.markdown(
+            f"Then **R {noh_plan['monthly_low']:,} — R {noh_plan['monthly_high']:,}/month** "
+            f"for {noh_plan['months']} months"
+        )
+        st.caption("One fixed payment to one provider. No separate deposits.")
+
+# ── Compare hospital pricing scenarios (collapsed) ──
+with st.expander("Compare hospital pricing scenarios"):
+    tiers = ["budget", "mid-range", "premium"]
+    tier_labels = ["Budget hospitals", "Mid-range hospitals", "Premium hospitals"]
+    tier_examples = {
+        "budget": "Life Healthcare",
+        "mid-range": "Mediclinic",
+        "premium": "Netcare",
+    }
+
+    compare_cols = st.columns(4)
+    for i, (tier, label) in enumerate(zip(tiers, tier_labels)):
+        with compare_cols[i]:
+            st.markdown(f"**{label}**")
+            st.caption(tier_examples[tier])
+            compare_inp = EstimatorInput(
+                region=region,
+                delivery_type=delivery_type if delivery_type != "Undecided" else "NVD",
+                risk_level=risk_level,
+                provider_tier=tier,
+                wants_epidural=wants_epidural,
+                wants_midwife=False,
+                wants_doula=wants_doula,
+            )
+            compare_result = estimate(compare_inp)
+            if isinstance(compare_result, dict):
+                compare_result = compare_result.get("NVD", list(compare_result.values())[0])
+            st.markdown(f"**R {compare_result.total[0]:,} — R {compare_result.total[1]:,}**")
+            tier_plan = calculate_noh_payment_plan(compare_result.total[0], compare_result.total[1])
+            st.caption(f"~R {tier_plan['monthly_low']:,}—R {tier_plan['monthly_high']:,}/mo")
+            st.caption("Paid as 6-7 separate bills")
+
+    with compare_cols[3]:
+        st.markdown("**:green[NOH bundle]**")
+        st.caption("Recommended")
+        st.markdown(
+            f"**:green[R {noh['noh_total_low']:,} — R {noh['noh_total_high']:,}]**"
+        )
+        st.caption(
+            f"R {noh_plan['monthly_low']:,}—R {noh_plan['monthly_high']:,}/mo "
+            f"over {noh_plan['months']} months"
+        )
+        st.caption("All-inclusive — no separate bills")
+
+# ── Methodology (collapsed) ──
+with st.expander("How we estimate"):
     st.markdown(
-        "**How we built these estimates** · Based on **250+ published data points** from "
-        "Netcare, Mediclinic, Life Healthcare, independent hospitals, specialist practices, "
-        "pathology labs, and radiology groups across South Africa. All pricing sourced from "
-        "publicly available hospital websites and published fee schedules."
+        "Based on **250+ published data points** from Netcare, Mediclinic, Life Healthcare, "
+        "independent hospitals, specialist practices, pathology labs, and radiology groups."
     )
-    st.caption("Last updated: March 2026  ·  Sources verified against published 2025-2026 pricing")
-with src_col2:
-    if os.path.exists(LOGO_PATH):
-        st.image(LOGO_PATH, width=80)
+    st.caption("Last updated: March 2026. Sources verified against published 2025-2026 pricing.")
 
-with st.expander("View detailed source list"):
+    st.markdown("**Why your final quote may differ:**")
+    st.markdown(
+        "- Hospital choice\n"
+        "- Doctor fees\n"
+        "- Medical aid rules\n"
+        "- Clinical complexity\n"
+        "- Unplanned changes during care"
+    )
+
     try:
         sources_df = load_sources()
+        st.markdown("**Source list:**")
         for _, row in sources_df.iterrows():
             url = row.get("url", "")
             name = row.get("source_name", "Unknown")
             year = row.get("data_year", "")
-            notes = row.get("notes", "")
             if url:
-                st.markdown(f"- [{name}]({url}) ({year}) — {notes}")
+                st.markdown(f"- [{name}]({url}) ({year})")
             else:
-                st.markdown(f"- {name} ({year}) — {notes}")
+                st.markdown(f"- {name} ({year})")
     except Exception:
-        st.info("Source data not available.")
+        st.caption("Source data not available.")
 
-st.divider()
-
-foot_col1, foot_col2 = st.columns([3, 1])
-with foot_col1:
-    st.caption(
-        "Disclaimer: These estimates are based on publicly available 2024-2026 pricing data. "
-        "Actual costs may vary depending on your clinical profile, hospital, and specialist. "
-        "This tool is for planning purposes only — confirm fees directly with your healthcare providers."
-    )
-with foot_col2:
-    st.caption("Network One Health  ·  Info@networkonehealth.co.za")
+# ── Footer ──
+st.markdown("---")
+st.caption(
+    "These estimates are for planning purposes only. Actual costs depend on your "
+    "clinical profile, hospital, and specialist. Confirm fees directly with your providers."
+)
+st.caption("Network One Health · Info@networkonehealth.co.za · 011 458 2497")

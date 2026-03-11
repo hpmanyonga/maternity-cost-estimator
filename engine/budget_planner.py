@@ -73,7 +73,7 @@ def calculate_savings_plan(
 def calculate_noh_payment_plan(
     noh_total_low: int,
     noh_total_high: int,
-    months: int = 12,
+    months: int = 6,
     deposit_pct: int = 10,
 ) -> dict:
     """Calculate NOH deposit + monthly instalment plan."""
