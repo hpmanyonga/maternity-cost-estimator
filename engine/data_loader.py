@@ -23,15 +23,6 @@ def _get_supabase():
     url = os.getenv("SUPABASE_URL") or ""
     key = os.getenv("SUPABASE_KEY") or os.getenv("SUPABASE_SERVICE_KEY") or ""
 
-    # Also check Streamlit secrets
-    if not url:
-        try:
-            import streamlit as st
-            url = st.secrets.get("SUPABASE_URL", "")
-            key = key or st.secrets.get("SUPABASE_KEY", "")
-        except Exception:
-            pass
-
     if url and key:
         try:
             from supabase import create_client

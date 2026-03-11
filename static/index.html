@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maternity Cost Estimator — Network One Health</title>
+    <meta name="description" content="Estimate the full cost of having a baby in South Africa's private sector. Compare fee-for-service bills with the Network One Health all-inclusive bundle.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="/static/js/app.js"></script>
+</head>
+<body x-data="estimatorApp()">
+
+<!-- ===== HEADER ===== -->
+<div class="container">
+    <div class="site-header">
+        <img src="/static/assets/noh_logo.png" alt="Network One Health">
+        <h1>Estimate your maternity costs in South Africa</h1>
+        <p class="subhead">Compare private fee-for-service bills with the Network One all-inclusive bundle</p>
+        <p class="trust-note">Based on published private-sector pricing. Final quote depends on clinical assessment.</p>
+    </div>
+</div>
+
+<!-- ===== LAYER 1: Estimator + Sticky Result ===== -->
+<div class="container">
+    <div class="estimator-layout">
+
+        <!-- LEFT: Form inputs -->
+        <div class="form-panel">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="region">Province</label>
+                    <select id="region" x-model="region">
+                        <option value="Gauteng">Gauteng</option>
+                        <option value="Western Cape">Western Cape</option>
+                        <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="delivery">Delivery preference</label>
+                    <select id="delivery" x-model="delivery_type">
+                        <option value="NVD">Natural vaginal delivery (NVD)</option>
+                        <option value="CS">Caesarean section (CS)</option>
+                        <option value="Undecided">Not sure yet — show both</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="risk">Risk level</label>
+                    <p class="hint">Low: 3 scans. Medium: 5 scans + extra bloods. High: 7 scans + extra bloods.</p>
+                    <select id="risk" x-model="risk_level">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tier">Hospital group</label>
+                    <p class="hint">Budget: Life. Mid-range: Mediclinic. Premium: Netcare.</p>
+                    <select id="tier" x-model="provider_tier">
+                        <option value="budget">Budget</option>
+                        <option value="mid-range" selected>Mid-range</option>
+                        <option value="premium">Premium</option>
+                    </select>
+                </div>
+
+                <!-- Timing — full width -->
+                <div class="form-group timing-group">
+                    <label>Timing</label>
+                    <div class="timing-tabs">
+                        <span class="timing-tab" :class="{ active: timing === 'pregnant' }"
+                              @click="timing = 'pregnant'">Currently pregnant</span>
+                        <span class="timing-tab" :class="{ active: timing === 'planning' }"
+                              @click="timing = 'planning'">Planning ahead</span>
+                    </div>
+                    <div class="slider-row" x-show="timing === 'pregnant'">
+                        <input type="range" min="4" max="40" x-model.number="gestational_weeks">
+                        <span class="slider-value" x-text="gestational_weeks + ' weeks'"></span>
+                    </div>
+                    <div class="slider-row" x-show="timing === 'planning'">
+                        <input type="range" min="1" max="24" x-model.number="planning_months">
+                        <span class="slider-value" x-text="planning_months + ' months'"></span>
+                    </div>
+                </div>
+
+                <!-- Bottom row: 2 columns — checkboxes left, CTA right -->
+                <div class="form-group">
+                    <div class="checkbox-row" x-show="delivery_type === 'NVD' || delivery_type === 'Undecided'">
+                        <input type="checkbox" id="epidural" x-model="wants_epidural">
+                        <label for="epidural">Epidural (adds anaesthetist)</label>
+                    </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="doula" x-model="wants_doula">
+                        <label for="doula">Doula (FFS only — included in NOH)</label>
+                    </div>
+                </div>
+                <div class="form-group" style="justify-content:flex-end;">
+                    <button class="btn-cta-inline" @click="scrollToQuote()" x-show="hasResults">
+                        Get my personalised quote
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Sticky result card -->
+        <div class="result-card">
+            <template x-if="loading && !hasResults">
+                <div class="result-placeholder">
+                    <div class="skeleton" style="width:60%;margin:0 auto;"></div>
+                    <div class="skeleton" style="width:80%;margin:0.5rem auto;height:2rem;"></div>
+                    <div class="skeleton" style="width:70%;margin:0.5rem auto;"></div>
+                </div>
+            </template>
+
+            <template x-if="hasResults && data">
+                <div :style="loading ? 'opacity:0.5;pointer-events:none' : ''">
+                    <p class="based-on">Based on your selections</p>
+
+                    <div class="result-cards-row">
+                        <div class="result-mini">
+                            <div class="mini-label">Fee-for-service</div>
+                            <div class="mini-value" x-text="range(data.ffs_total.low, data.ffs_total.high)"></div>
+                            <div class="mini-sub">Across multiple providers</div>
+                        </div>
+                        <div class="result-mini recommended">
+                            <div class="mini-label">NOH bundle</div>
+                            <div class="mini-value" x-text="range(data.noh_total.low, data.noh_total.high)"></div>
+                            <div class="mini-sub">Single all-inclusive fee</div>
+                        </div>
+                    </div>
+
+                    <div class="savings-strip" x-show="data.savings.high > 0"
+                         x-text="'Save ' + range(data.savings.low, data.savings.high)"></div>
+
+                    <div class="monthly-strip">
+                        <strong x-text="'From ' + R(data.noh_payment_plan.monthly_low) + '/month'"></strong>
+                        over <span x-text="data.noh_payment_plan.months"></span> months
+                        (after <span x-text="R(data.noh_payment_plan.deposit_low)"></span> deposit)
+                    </div>
+
+                    <button class="btn-primary" @click="scrollToQuote()">Get my personalised quote</button>
+                </div>
+            </template>
+        </div>
+
+    </div>
+</div>
+
+<!-- ===== LAYER 2: Accordion details ===== -->
+<div class="container" x-show="hasResults">
+    <div class="details-section">
+
+        <!-- Included / Excluded strip -->
+        <div class="inclusion-strip" x-show="data">
+            <div class="col">
+                <h3>Included in NOH</h3>
+                <ul class="incl-list">
+                    <template x-for="item in data ? data.inclusions : []" :key="item">
+                        <li x-text="item"></li>
+                    </template>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Not included</h3>
+                <ul class="excl-list">
+                    <template x-for="item in data ? data.exclusions : []" :key="item">
+                        <li>
+                            <span x-text="item"></span>
+                            <span style="color:#aaa;" x-text="'(' + range(data.paediatrician.low, data.paediatrician.high) + ')'"></span>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Accordion: FFS breakdown -->
+        <details class="accordion">
+            <summary>View fee-for-service breakdown</summary>
+            <div class="accordion-body">
+                <div class="mini-tabs" x-show="data && data.is_undecided">
+                    <span class="mini-tab" :class="{ active: ffsTab === 'NVD' }" @click="ffsTab = 'NVD'">NVD</span>
+                    <span class="mini-tab" :class="{ active: ffsTab === 'CS' }" @click="ffsTab = 'CS'">CS</span>
+                </div>
+                <table class="cost-table">
+                    <thead><tr><th>Category</th><th class="text-right">Low</th><th class="text-right">High</th></tr></thead>
+                    <tbody>
+                        <template x-for="row in ffsRows" :key="row[0]">
+                            <tr>
+                                <td x-text="row[0]"></td>
+                                <td class="text-right" x-text="R(row[1].low)"></td>
+                                <td class="text-right" x-text="R(row[1].high)"></td>
+                            </tr>
+                        </template>
+                        <tr x-show="ffsBreakdown">
+                            <td>Total</td>
+                            <td class="text-right" x-text="ffsBreakdown ? R(ffsBreakdown.total.low) : ''"></td>
+                            <td class="text-right" x-text="ffsBreakdown ? R(ffsBreakdown.total.high) : ''"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Line items nested inside -->
+                <details style="margin-top:0.75rem;">
+                    <summary style="font-size:0.8rem;color:var(--primary);cursor:pointer;">Detailed line items</summary>
+                    <table class="cost-table" style="margin-top:0.5rem;font-size:0.82rem;" x-show="ffsBreakdown && ffsBreakdown.line_items.length > 0">
+                        <thead><tr><th>Category</th><th>Service</th><th class="text-right">Low</th><th class="text-right">High</th></tr></thead>
+                        <tbody>
+                            <template x-for="item in ffsBreakdown ? ffsBreakdown.line_items : []" :key="item.service">
+                                <tr>
+                                    <td x-text="item.category"></td>
+                                    <td x-text="item.service"></td>
+                                    <td class="text-right" x-text="R(item.low)"></td>
+                                    <td class="text-right" x-text="R(item.high)"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </details>
+            </div>
+        </details>
+
+        <!-- Accordion: How we estimate -->
+        <details class="accordion">
+            <summary>How we estimate</summary>
+            <div class="accordion-body">
+                <p style="margin-bottom:0.5rem;">Estimates are assembled from 250+ published data points from Netcare, Mediclinic, Life Healthcare, independent hospitals, specialist practices, pathology labs, and radiology groups. Costs are filtered by your province, hospital tier, delivery type, and risk level.</p>
+                <p>NOH pricing is a fixed bundled fee adjusted for clinical risk, covering hospital, obstetrician, anaesthetist, scans, bloods, doula, and antenatal classes in a single price.</p>
+            </div>
+        </details>
+
+        <!-- Sources: links only -->
+        <details class="accordion" @toggle="loadSources()">
+            <summary>Sources</summary>
+            <div class="accordion-body">
+                <ul class="source-links" x-show="sourcesLoaded && sources">
+                    <template x-for="s in sources || []" :key="s.source_id">
+                        <li x-show="s.url">
+                            <a :href="s.url" target="_blank" rel="noopener" x-text="s.source_name"></a>
+                        </li>
+                    </template>
+                </ul>
+                <p x-show="!sourcesLoaded" style="font-size:0.82rem;color:#aaa;">Loading...</p>
+            </div>
+        </details>
+
+        <!-- Trust strip -->
+        <div class="trust-strip">
+            <span>250+ published data points</span>
+            <span>Updated March 2026</span>
+            <span>Estimate, not a final clinical quote</span>
+        </div>
+    </div>
+</div>
+
+<hr class="divider" x-show="hasResults">
+
+<!-- ===== LEAD CAPTURE ===== -->
+<div class="container" x-show="hasResults" id="lead-section">
+    <div class="lead-section">
+        <h2>Get your personalised quote</h2>
+        <p class="lead-sub">Share your details and we'll send you a quote based on your clinical profile.</p>
+
+        <div class="lead-grid">
+            <div class="form-group">
+                <label for="lead-name">Name</label>
+                <input type="text" id="lead-name" x-model="leadName" placeholder="Your name">
+            </div>
+            <div class="form-group">
+                <label for="lead-email">Email</label>
+                <input type="email" id="lead-email" x-model="leadEmail" placeholder="you@example.com">
+            </div>
+            <div class="form-group">
+                <label for="lead-phone">Phone (optional)</label>
+                <input type="tel" id="lead-phone" x-model="leadPhone" placeholder="082 123 4567">
+            </div>
+            <div class="form-group">
+                <label for="lead-province">Province</label>
+                <select id="lead-province" x-model="leadProvince">
+                    <option value="Gauteng">Gauteng</option>
+                    <option value="Western Cape">Western Cape</option>
+                    <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-primary" @click="submitLead()" :disabled="leadSubmitting" style="max-width:360px;margin:1rem auto 0;">
+            <span class="spinner" x-show="leadSubmitting"></span>
+            <span x-text="leadSubmitting ? 'Sending...' : 'Request a quote'"></span>
+        </button>
+
+        <div :class="leadError ? 'callout-warning' : 'callout-success'"
+             x-show="leadMessage" x-text="leadMessage"></div>
+    </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+    <div class="container">
+        <p>These estimates are based on publicly available 2024-2026 pricing. Actual costs depend on your clinical profile, hospital, and specialist. For planning purposes only.</p>
+        <p style="margin-top:0.35rem;">Network One Health &middot; <a href="mailto:hp@hpmanyonga.com">hp@hpmanyonga.com</a></p>
+    </div>
+</div>
+
+<!-- ===== MOBILE STICKY BOTTOM ===== -->
+<div class="sticky-bottom" x-show="hasResults && data">
+    <div>
+        <div class="sb-label">NOH bundle</div>
+        <div class="sb-total" x-text="data ? range(data.noh_total.low, data.noh_total.high) : ''"></div>
+    </div>
+    <button class="btn-primary" @click="scrollToQuote()">Get quote</button>
+</div>
+
+</body>
+</html>
