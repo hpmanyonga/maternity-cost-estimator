@@ -16,7 +16,6 @@ LOGO_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "assets", "
 
 NOH = "#40887d"
 NOH_LIGHT = "#e8f4f1"
-NOH_BORDER = "#40887d"
 
 
 def _fmt(n: int) -> str:
@@ -44,97 +43,85 @@ def _show_breakdown(breakdown: CostBreakdown):
     st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
 
-# ── Page config + CSS ──
+# ── Page CSS ──
 st.markdown(
     f"""<style>
     [data-testid="stSidebar"]{{display:none}}
     [data-testid="stSidebarCollapsedControl"]{{display:none}}
-    .block-container{{max-width:1200px;padding-top:1rem}}
-
-    /* Primary color overrides */
-    .stButton>button[kind="primary"],
+    .block-container{{max-width:960px;padding-top:1rem}}
     .stFormSubmitButton>button[kind="primary"] {{
         background-color: {NOH} !important;
         border-color: {NOH} !important;
     }}
-    .stButton>button[kind="primary"]:hover,
     .stFormSubmitButton>button[kind="primary"]:hover {{
         background-color: #357a6f !important;
         border-color: #357a6f !important;
-    }}
-
-    /* Segmented control active */
-    [data-testid="stSegmentedControl"] button[aria-pressed="true"] {{
-        background-color: {NOH} !important;
-        color: white !important;
     }}
     </style>""",
     unsafe_allow_html=True,
 )
 
-# ── Header ──
-h1, h2 = st.columns([4, 1])
-with h1:
-    st.markdown(f'<h3 style="margin:0;color:{NOH}">Maternity Cost Estimator</h3>', unsafe_allow_html=True)
-    st.caption("Compare separate bills with the NOH all-in-one bundle.")
-with h2:
+# ══════════════════════════════════════════════════
+# HEADER — logo + title
+# ══════════════════════════════════════════════════
+hdr_logo, hdr_text = st.columns([0.12, 0.88], gap="small")
+with hdr_logo:
     if os.path.exists(LOGO_PATH):
-        st.image(LOGO_PATH, width=70)
+        st.image(LOGO_PATH, width=60)
+with hdr_text:
+    st.markdown(
+        f'<h2 style="margin:0 0 2px;color:{NOH};line-height:1.1">Maternity Cost Estimator</h2>'
+        f'<p style="margin:0;color:#64748b;font-size:0.9rem">'
+        f'Compare separate bills with the NOH all-in-one bundle</p>',
+        unsafe_allow_html=True,
+    )
+
+st.markdown("")
 
 # ══════════════════════════════════════════════════
-# 3-column layout: Inputs | Separate bills | NOH
+# INPUTS — compact, full-width rows
 # ══════════════════════════════════════════════════
-col_in, col_ffs, col_noh = st.columns([1.0, 0.9, 0.9], gap="medium")
-
-# ── INPUTS ──
-with col_in:
+i1, i2, i3, i4 = st.columns(4, gap="medium")
+with i1:
     region = st.selectbox(
-        "Where will you deliver?",
+        "Province",
         ["Gauteng", "Western Cape", "KwaZulu-Natal", "Other"],
         help="Costs vary by province.",
     )
-
-    delivery_labels = {"NVD": "Vaginal birth", "CS": "Planned caesarean", "Undecided": "Not sure yet"}
-    delivery_type = st.segmented_control(
+with i2:
+    delivery_labels = {"NVD": "Vaginal", "CS": "Caesarean", "Undecided": "Not sure yet"}
+    delivery_type = st.selectbox(
         "Birth type",
         options=list(delivery_labels.keys()),
         format_func=lambda x: delivery_labels[x],
-        default="Undecided",
+        index=2,
     )
-
+with i3:
     risk_level = st.selectbox(
         "Care complexity",
         ["low", "medium", "high"],
         format_func=lambda x: x.capitalize(),
-        help="How much monitoring your pregnancy needs.",
+        help="**Low** = routine. **Medium** = extra monitoring (35+, prev CS). **High** = diabetes, twins.",
     )
-    with st.expander("What does care complexity mean?", expanded=False):
-        st.markdown(
-            "**Low** — Routine pregnancy, no extra monitoring\n\n"
-            "**Medium** — Extra scans or monitoring (age 35+, previous caesarean, BMI concerns)\n\n"
-            "**High** — Close management needed (diabetes, hypertension, twins)"
-        )
-
+with i4:
     provider_tier = st.selectbox(
-        "Hospital price level",
+        "Hospital level",
         ["budget", "mid-range", "premium"],
         index=1,
         format_func=lambda x: x.capitalize(),
         help="**Budget** = Life. **Mid-range** = Mediclinic. **Premium** = Netcare.",
     )
 
-    c1, c2 = st.columns(2)
-    with c1:
-        wants_epidural = False
-        if delivery_type in ("NVD", "Undecided"):
-            wants_epidural = st.checkbox("Epidural", help="Adds anaesthetist fee. NOH adds R3,500.")
-    with c2:
-        wants_doula = st.checkbox("Doula", help="Included in NOH bundle.")
-
-    timing_choice = st.segmented_control(
-        "Timing", options=["Pregnant now", "Planning"], default="Pregnant now",
-    )
-
+j1, j2, j3, j4 = st.columns(4, gap="medium")
+with j1:
+    wants_epidural = False
+    if delivery_type in ("NVD", "Undecided"):
+        wants_epidural = st.checkbox("Epidural", help="Adds anaesthetist fee. NOH +R3,500.")
+with j2:
+    wants_doula = st.checkbox("Doula", help="Included in NOH bundle.")
+with j3:
+    timing_choice = st.selectbox("Timing", ["Pregnant now", "Planning"])
+with j4:
     gestational_weeks = 0
     weeks_remaining = 40
     gestation_group = "Under 12 weeks"
@@ -149,6 +136,7 @@ with col_in:
         weeks_remaining = 40 - gestational_weeks
     else:
         weeks_remaining = 64
+        st.markdown("")  # spacer
 
 # ── COMPUTE ──
 inp = EstimatorInput(
@@ -163,29 +151,28 @@ ffs_high = noh["ffs_total_high"]
 noh_plan = calculate_noh_payment_plan(noh["noh_total_low"], noh["noh_total_high"])
 ffs_plan = calculate_savings_plan(ffs_low, ffs_high, weeks_remaining)
 
-# ── SEPARATE BILLS column ──
+st.markdown("---")
+
+# ══════════════════════════════════════════════════
+# RESULTS — 2 equal columns
+# ══════════════════════════════════════════════════
+col_ffs, col_noh = st.columns(2, gap="large")
+
+# ── SEPARATE BILLS ──
 with col_ffs:
     with st.container(border=True):
         st.markdown(
-            '<p style="font-size:0.75rem;font-weight:600;text-transform:uppercase;'
-            'letter-spacing:.04em;color:#64748b;margin:0 0 2px">'
-            'Separate bills</p>',
+            '<p style="font-size:0.72rem;font-weight:600;text-transform:uppercase;'
+            'letter-spacing:.05em;color:#94a3b8;margin:0 0 4px">SEPARATE BILLS</p>',
             unsafe_allow_html=True,
         )
         st.markdown(
-            f'<p style="font-size:1.5rem;font-weight:700;line-height:1.2;'
-            f'margin:0 0 8px;color:#1e293b">'
+            f'<p style="font-size:1.75rem;font-weight:700;margin:0 0 8px;color:#1e293b">'
             f'{_fmt(ffs_low)} — {_fmt(ffs_high)}</p>',
             unsafe_allow_html=True,
         )
-        st.caption(
-            "6-7 bills from hospital, OB, anaesthetist, "
-            "paediatrician, lab, radiology"
-        )
-        st.caption(
-            f"Savings target: ~{_fmt(ffs_plan.monthly_low)}—"
-            f"{_fmt(ffs_plan.monthly_high)}/mo"
-        )
+        st.caption("6-7 bills from hospital, OB, anaesthetist, paediatrician, lab, radiology")
+        st.caption(f"Savings target: ~{_fmt(ffs_plan.monthly_low)}—{_fmt(ffs_plan.monthly_high)}/mo")
 
     with st.expander("See cost breakdown"):
         if isinstance(ffs_result, dict):
@@ -197,26 +184,25 @@ with col_ffs:
         else:
             _show_breakdown(ffs_result)
 
-# ── NOH BUNDLE column ──
+# ── NOH BUNDLE ──
 with col_noh:
-    # Green-tinted NOH card via inline style wrapper
+    savings_html = ""
+    if noh["savings_high"] > 0:
+        savings_html = (
+            f'<span style="display:inline-block;background:{NOH};color:#fff;'
+            f'font-size:0.78rem;font-weight:600;padding:3px 14px;'
+            f'border-radius:20px;margin:0 0 8px">Save up to {_fmt(noh["savings_high"])}</span><br>'
+        )
+
     st.markdown(
         f'<div style="border:2px solid {NOH};border-radius:12px;'
-        f'background:{NOH_LIGHT};padding:20px 18px 14px;margin-bottom:8px">'
-        f'<p style="font-size:0.75rem;font-weight:600;text-transform:uppercase;'
-        f'letter-spacing:.04em;color:{NOH};margin:0 0 2px">'
-        f'NOH all-in-one bundle</p>'
-        f'<p style="font-size:1.5rem;font-weight:700;line-height:1.2;'
-        f'margin:0 0 6px;color:{NOH}">'
+        f'background:{NOH_LIGHT};padding:20px 22px 16px">'
+        f'<p style="font-size:0.72rem;font-weight:600;text-transform:uppercase;'
+        f'letter-spacing:.05em;color:{NOH};margin:0 0 4px">NOH ALL-IN-ONE BUNDLE</p>'
+        f'<p style="font-size:1.75rem;font-weight:700;margin:0 0 8px;color:{NOH}">'
         f'{_fmt(noh["noh_total_low"])} — {_fmt(noh["noh_total_high"])}</p>'
-        + (
-            f'<span style="display:inline-block;background:{NOH};color:#fff;'
-            f'font-size:0.78rem;font-weight:600;padding:3px 12px;'
-            f'border-radius:20px;margin:2px 0 8px">'
-            f'Save up to {_fmt(noh["savings_high"])}</span>'
-            if noh["savings_high"] > 0 else ""
-        )
-        + f'<p style="font-size:0.82rem;color:#475569;margin:6px 0 0">'
+        f'{savings_html}'
+        f'<p style="font-size:0.85rem;color:#475569;margin:0">'
         f'From <b>{_fmt(noh_plan["monthly_low"])}/mo</b> '
         f'over {noh_plan["months"]} months (10% deposit)</p>'
         f'</div>',
@@ -244,12 +230,9 @@ st.caption(
 )
 
 # ══════════════════════════════════════════════════
-# Below-the-fold: quote form + collapsed sections
+# QUOTE FORM
 # ══════════════════════════════════════════════════
-
 st.markdown("---")
-
-# ── Quote form ──
 st.markdown(f'<h4 style="color:{NOH};margin-bottom:0">Get your personalised quote</h4>', unsafe_allow_html=True)
 st.caption("Our team will contact you to understand your clinical needs and provide a personalised quote.")
 
@@ -336,7 +319,16 @@ with st.form("noh_lead_form"):
         else:
             st.warning("Please enter your name and email.")
 
-# ── Collapsed sections ──
+# ══════════════════════════════════════════════════
+# COLLAPSED DETAIL SECTIONS
+# ══════════════════════════════════════════════════
+with st.expander("What does care complexity mean?"):
+    st.markdown(
+        "**Low** — Routine pregnancy, no extra monitoring\n\n"
+        "**Medium** — Extra scans or monitoring (age 35+, previous caesarean, BMI concerns)\n\n"
+        "**High** — Close management needed (diabetes, hypertension, twins)"
+    )
+
 with st.expander("Plan your payments"):
     p1, p2 = st.columns(2)
     with p1:
@@ -348,7 +340,7 @@ with st.expander("Plan your payments"):
         for m in ffs_plan.milestones:
             st.caption(f"{m['milestone']} — {m['when']}")
     with p2:
-        st.markdown(f"**:green[NOH payment plan]**")
+        st.markdown(f"**NOH payment plan**")
         st.markdown(f"Deposit: **{_fmt(noh_plan['deposit_low'])}—{_fmt(noh_plan['deposit_high'])}**")
         st.markdown(
             f"Then **{_fmt(noh_plan['monthly_low'])}—{_fmt(noh_plan['monthly_high'])}/mo** "
@@ -375,8 +367,8 @@ with st.expander("Compare hospital scenarios"):
             tp = calculate_noh_payment_plan(cr.total[0], cr.total[1])
             st.caption(f"~{_fmt(tp['monthly_low'])}/mo")
     with cc[3]:
-        st.markdown(f"**:green[NOH bundle]**")
-        st.markdown(f":green[{_fmt(noh['noh_total_low'])}—{_fmt(noh['noh_total_high'])}]")
+        st.markdown(f"**NOH bundle**")
+        st.markdown(f"{_fmt(noh['noh_total_low'])}—{_fmt(noh['noh_total_high'])}")
         st.caption(f"{_fmt(noh_plan['monthly_low'])}/mo x {noh_plan['months']}mo")
 
 with st.expander("How we estimate + sources"):
