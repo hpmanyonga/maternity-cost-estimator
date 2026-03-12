@@ -10,7 +10,8 @@ from email.mime.text import MIMEText
 from typing import Optional
 
 NOH = "#40887d"
-SENDER_EMAIL = "Info@networkonehealth.co.za"
+SENDER_EMAIL = "hp@hpmanyonga.com"
+REPLY_TO = "Info@networkonehealth.co.za"
 TEAM_EMAIL = "Info@networkonehealth.co.za"
 
 _service = None
@@ -52,6 +53,7 @@ def _send_email(to: str, subject: str, html_body: str) -> bool:
     try:
         msg = MIMEMultipart("alternative")
         msg["From"] = f"Network One Health <{SENDER_EMAIL}>"
+        msg["Reply-To"] = REPLY_TO
         msg["To"] = to
         msg["Subject"] = subject
         msg.attach(MIMEText(html_body, "html"))
