@@ -33,17 +33,25 @@ def _get_supabase():
     return None
 
 
+_supabase_available: bool | None = None
+
+
 def _fetch_table(table_name: str, columns: str = "*") -> pd.DataFrame | None:
-    """Fetch a full table from Supabase. Returns None on failure."""
+    """Fetch a full table from Supabase. Returns None on failure. Skips if previous attempt failed."""
+    global _supabase_available
+    if _supabase_available is False:
+        return None
     sb = _get_supabase()
     if sb is None:
+        _supabase_available = False
         return None
     try:
         result = sb.table(table_name).select(columns).execute()
         if result.data:
+            _supabase_available = True
             return pd.DataFrame(result.data)
     except Exception:
-        pass
+        _supabase_available = False
     return None
 
 
@@ -263,9 +271,15 @@ def load_sources() -> pd.DataFrame:
     return pd.read_csv(os.path.join(DATA_DIR, "00_sources_and_notes.csv"))
 
 
+_all_cache: dict[str, pd.DataFrame] | None = None
+
+
 def load_all() -> dict[str, pd.DataFrame]:
-    """Load all data files and return a dict keyed by category."""
-    return {
+    """Load all data files and return a dict keyed by category. Cached after first call."""
+    global _all_cache
+    if _all_cache is not None:
+        return _all_cache
+    _all_cache = {
         "hospital": load_hospital_packages(),
         "obstetrician": load_obstetrician_fees(),
         "anaesthetist": load_anaesthetist_fees(),
@@ -276,3 +290,4 @@ def load_all() -> dict[str, pd.DataFrame]:
         "medication": load_medication_fees(),
         "sources": load_sources(),
     }
+    return _all_cache
