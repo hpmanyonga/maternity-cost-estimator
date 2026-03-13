@@ -15,14 +15,14 @@ SESSION_TIMEOUT_SECONDS = 60 * 60  # 60 minutes
 
 
 def _resolve_env(key: str) -> str:
-    """Read from env vars first, then Streamlit secrets."""
-    val = os.getenv(key, "")
-    if not val:
-        try:
-            val = st.secrets.get(key, "")
-        except Exception:
-            pass
-    return val
+    """Read from Streamlit secrets first, then env vars as fallback."""
+    try:
+        val = st.secrets.get(key, "")
+        if val:
+            return val
+    except Exception:
+        pass
+    return os.getenv(key, "")
 
 
 def get_anon_client():

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import pandas as pd
+import streamlit as st
 from engine.config import REGIONS, NATIONAL_MARKERS, PROVIDER_TIERS
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
@@ -14,14 +15,25 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
 _sb_client = None
 
 
+def _resolve_env(key: str) -> str:
+    """Read from Streamlit secrets first, then env vars as fallback."""
+    try:
+        val = st.secrets.get(key, "")
+        if val:
+            return val
+    except Exception:
+        pass
+    return os.getenv(key, "")
+
+
 def _get_supabase():
     """Return a Supabase client if credentials are available, else None."""
     global _sb_client
     if _sb_client is not None:
         return _sb_client
 
-    url = os.getenv("SUPABASE_URL") or ""
-    key = os.getenv("SUPABASE_KEY") or os.getenv("SUPABASE_SERVICE_KEY") or ""
+    url = _resolve_env("SUPABASE_URL")
+    key = _resolve_env("SUPABASE_KEY") or _resolve_env("SUPABASE_SERVICE_KEY")
 
     if url and key:
         try:

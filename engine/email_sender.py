@@ -9,6 +9,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from typing import Optional
 
+import streamlit as st
+
 NOH = "#40887d"
 SENDER_EMAIL = "hp@hpmanyonga.com"
 REPLY_TO = "Info@networkonehealth.co.za"
@@ -17,13 +19,24 @@ TEAM_EMAIL = "Info@networkonehealth.co.za"
 _service = None
 
 
+def _resolve_env(key: str, default: str = "") -> str:
+    """Read from Streamlit secrets first, then env vars as fallback."""
+    try:
+        val = st.secrets.get(key, "")
+        if val:
+            return val
+    except Exception:
+        pass
+    return os.getenv(key, default)
+
+
 def _get_gmail_service():
     """Build Gmail API service using service account with domain-wide delegation."""
     global _service
     if _service is not None:
         return _service
 
-    creds_json = os.getenv("GOOGLE_SHEETS_CREDENTIALS", "")
+    creds_json = _resolve_env("GOOGLE_SHEETS_CREDENTIALS")
     if not creds_json:
         return None
 

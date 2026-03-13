@@ -7,8 +7,20 @@ import os
 from datetime import datetime, timezone
 from typing import Dict, Optional
 
+import streamlit as st
 import gspread
 from gspread import Spreadsheet, Worksheet
+
+
+def _resolve_env(key: str, default: str = "") -> str:
+    """Read from Streamlit secrets first, then env vars as fallback."""
+    try:
+        val = st.secrets.get(key, "")
+        if val:
+            return val
+    except Exception:
+        pass
+    return os.getenv(key, default)
 
 _client: Optional[gspread.Client] = None
 
@@ -25,7 +37,7 @@ def _get_sheets_client() -> Optional[gspread.Client]:
     if _client is not None:
         return _client
 
-    creds_json = os.getenv("GOOGLE_SHEETS_CREDENTIALS", "")
+    creds_json = _resolve_env("GOOGLE_SHEETS_CREDENTIALS")
     if not creds_json:
         return None
 
@@ -59,7 +71,7 @@ def append_lead(row_dict: Dict[str, str]) -> bool:
     row_dict keys should match LEAD_HEADERS. Missing keys get empty strings.
     Returns True on success, False on failure (non-blocking).
     """
-    sheet_id = os.getenv("GOOGLE_SHEETS_ID", "")
+    sheet_id = _resolve_env("GOOGLE_SHEETS_ID")
     if not sheet_id:
         return False
 
